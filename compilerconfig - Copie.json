@@ -1,0 +1,67 @@
+[
+  {
+    "outputFile": "Content/kendo/web/kendo.common.css",
+    "inputFile": "Content/kendo/web/kendo.common.less",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Content/kendo/web/kendo.common-material.css",
+    "inputFile": "Content/kendo/web/kendo.common-material.less",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Content/kendo/web/kendo.material.css",
+    "inputFile": "Content/kendo/web/kendo.material.less",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Content/Site.css",
+    "inputFile": "Content/Site.scss",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Scripts/Coffee/serializeObject.js",
+    "inputFile": "Scripts/Coffee/serializeObject.coffee",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Scripts/Coffee/renderMultiSelectText.js",
+    "inputFile": "Scripts/Coffee/renderMultiSelectText.coffee",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Scripts/Coffee/kendoGetTitle.js",
+    "inputFile": "Scripts/Coffee/kendoGetTitle.coffee",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Scripts/Coffee/kendoGetTemplate.js",
+    "inputFile": "Scripts/Coffee/kendoGetTemplate.coffee",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Scripts/Coffee/jquery.update-image.js",
+    "inputFile": "Scripts/Coffee/jquery.update-image.coffee",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Content/kendo/web/kendo.metro.css",
+    "inputFile": "Content/kendo/web/kendo.metro.less",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Content/kendo/dataviz/kendo.dataviz.css",
+    "inputFile": "Content/kendo/dataviz/kendo.dataviz.less",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Content/kendo/dataviz/kendo.dataviz.metro.css",
+    "inputFile": "Content/kendo/dataviz/kendo.dataviz.metro.less",
+    "sourceMap": false
+  },
+  {
+    "outputFile": "Content/kendo/dataviz/kendo.dataviz.material.css",
+    "inputFile": "Content/kendo/dataviz/kendo.dataviz.material.less",
+    "sourceMap": false
+  }
+]
