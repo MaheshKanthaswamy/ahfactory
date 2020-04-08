@@ -1,0 +1,111 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+form {
+    .button[type=submit], button[type=submit] {
+        margin-bottom: 0;
+    }
+}
+
+.ftel-editor-field {
+    margin-bottom: $form-spacing;
+
+    label {
+        display: inline-block;
+        margin-right: 3px;
+        text-transform: uppercase;
+        font-size: .8em;
+        white-space: normal;
+    }
+
+    input, textarea {
+        margin: 0;
+
+        &.input-validation-error, &.error {
+            border-color: $alert-color;
+
+            & + label.error {
+                &:before {
+                    position: relative;
+                    content: $fa-var-warning;
+                    font-family: FontAwesome;
+                    margin-right: 5px;
+                }
+
+                display: inline !important;
+                color: #fff;
+                font-size: $label-font-size;
+                padding: $label-padding;
+                background: $alert-color;
+                text-transform: none;
+                margin: 0;
+            }
+        }
+    }
+
+    .k-widget {
+        width: 100%;
+        margin: 0;
+
+        input, textarea {
+            &.input-validation-error, &.error {
+                border-width: 1px;
+                border-style: solid;
+                border-right: 0;
+                border-bottom: 0;
+
+                + .k-select {
+                    border: 1px solid $alert-color;
+                    border-left: 0;
+                    border-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .k-dropdown-wrap {
+        .k-input {
+            line-height: 1.9em;
+        }
+
+        .k-select {
+            line-height: 2.1em;
+        }
+    }
+
+    .ftel-editor-field-checkbox-container {
+        display: table;
+
+        input.check-box {
+            display: table-cell;
+        }
+
+        label, span {
+            display: table-cell;
+            padding-left: 10px;
+            text-transform:uppercase;
+            font-size: .8em;
+        }
+    }
+
+    .field-validation-error, & + .field-validation-error {
+        display: block;
+
+        &:before {
+            position: relative;
+            content: $fa-var-warning;
+            font-family: FontAwesome;
+            margin-right: 5px;
+        }
+
+        color: #fff;
+        font-size: $label-font-size;
+        padding: $label-padding;
+        background: $alert-color;
+    }
+
+    & + .field-validation-error {
+        margin-top: -$form-spacing;
+        margin-bottom: $form-spacing;
+    }
+}

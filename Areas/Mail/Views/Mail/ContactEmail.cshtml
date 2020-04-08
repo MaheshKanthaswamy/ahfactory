@@ -1,0 +1,146 @@
+﻿@model ContactMailModel
+
+@{
+    var siteurl = (string)ViewBag.SiteURL;
+
+    var background_color = "#ffffff";
+    var button_background_color = "#94C56A";
+    var button_text_color = "#ffffff";
+    var title_color = "#333";
+    var text_color = "rgb(57, 63, 76)";
+}
+
+<!--[if mso]>
+<table border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;"><tr><td>
+<![endif]-->
+<div style="margin:0 auto;max-width:600px;background:@(background_color);">
+    <table cellpadding="0" cellspacing="0" style="font-size:0;width:100%;background:@(background_color);" align="center" border="0">
+        <tbody>
+            <tr>
+                <td style="text-align:center;vertical-align:top;font-size:0;padding:20px 0;padding-bottom:20px;padding-top:20px;">
+                    <!--[if mso]>
+                    <table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:60px;">
+                    <![endif]-->
+                    <div aria-labelledby="mj-column-per-10" class="mj-column-per-10" style="vertical-align:top;display:inline-block;font-size:13px;text-align:left;width:100%;">
+                        <table cellpadding="0" cellspacing="0" style="vertical-align:top;" width="100%" border="0">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <!--[if mso]>
+                    </td><td style="vertical-align:top;width:480px;">
+                      <![endif]-->
+                    <div aria-labelledby="mj-column-per-80" class="mj-column-per-80" style="vertical-align:top;display:inline-block;font-size:13px;text-align:left;width:100%;">
+                        <table cellpadding="0" cellspacing="0" style="vertical-align:top;" width="100%" border="0">
+                            <tbody>
+                                <tr>
+                                    <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="left">
+                                        <div style="cursor:auto;color:@(text_color);font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;">
+                                            <p>
+                                                <span style="color: @(title_color);">
+                                                    <span style="font-weight: bold;">
+                                                        <span style="font-size: 16px;">@Html.Lang("email.support.site.title") :</span>
+                                                    </span>
+                                                    <span style="color: @(text_color);">
+                                                        <a href="@GlobalVariables.SiteUrl" style="display:inline-block;text-decoration:none;font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;" target="_blank">
+                                                            @GlobalVariables.SiteUrl
+                                                        </a>
+                                                    </span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="left">
+                                        <div style="cursor:auto;color:@(text_color);font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;">
+                                            <p>
+                                                <span style="color: @(title_color);">
+                                                    <span style="font-weight: bold;">
+                                                        <span style="font-size: 16px;">@Html.Lang("email.support.user.email.title") :</span>
+                                                    </span>
+                                                    <span style="color: @(text_color);">
+                                                        <a href="mailto:@Model.Email" style="display:inline-block;text-decoration:none;font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;" target="_blank">
+                                                            @Model.Email
+                                                        </a>
+                                                    </span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="left">
+                                        <div style="cursor:auto;color:@(text_color);font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;">
+                                            <p>
+                                                <span style="color: @(title_color);">
+                                                    <span style="font-weight: bold;">
+                                                        <span style="font-size: 16px;">@Html.Lang("email.support.question.type.title") :</span>
+                                                    </span>
+                                                    <span style="color: @(text_color);">@Html.Lang(Model.Object)</span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="left">
+                                        <div style="cursor:auto;color:@(title_color);font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;">
+                                            <p>
+                                                <span style="color: @(title_color);">
+                                                    <span style="font-weight: bold;">
+                                                        <span style="font-size: 16px;">
+                                                            @Html.Lang("email.support.question.title") :
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="justify">
+                                        <div style="cursor:auto;color:@(text_color);font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;">
+                                            <p>
+                                                <span style="color: @(text_color);">@Model.Question</span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="word-break:break-word;font-size:0;padding:15px 30px;padding-top:15px;padding-bottom:15px;padding-right:30px;padding-left:30px;" align="center">
+                                        <table cellpadding="0" cellspacing="0" style="border:none;border-radius:0px;" align="center" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="background:@(button_background_color);border-radius:0px;color:@(button_text_color);cursor:auto;" align="center" valign="middle" bgcolor="@(button_background_color)">
+                                                        <a href="mailto:@(Model.Email)" style="display:inline-block;text-decoration:none;background:@(button_background_color);border:1px solid @(button_background_color);border-radius:0px;color:@(button_text_color);font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;padding:15px 30px;" target="_blank">
+                                                            @Html.Lang("email.support.button.text")
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--[if mso]>
+                    </td><td style="vertical-align:top;width:60px;">
+                    <![endif]-->
+                    <div aria-labelledby="mj-column-per-10" class="mj-column-per-10" style="vertical-align:top;display:inline-block;font-size:13px;text-align:left;width:100%;">
+                        <table cellpadding="0" cellspacing="0" style="vertical-align:top;" width="100%" border="0">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <!--[if mso]>
+                    </td></tr></table>
+                    <![endif]-->
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--[if mso]>
+</td></tr></table>
+<![endif]-->

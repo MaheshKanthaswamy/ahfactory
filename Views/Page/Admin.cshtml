@@ -1,0 +1,56 @@
+﻿<div class="admin-page-select">
+    <div class="row small-up-2 medium-up-3 large-up-4">
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("Index", "VersionnableDocument", new { area = "Admin" })"><i class="fa fa-file fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("document.type.management")</a>
+        </div>
+        @*<div class="column column-block">
+            <a class="callout" href="@Url.Action("Index", "Email", new { area = "Admin" })">@LangHelper.Translate("email.management")</a>
+        </div>*@
+
+
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("Index", "User", new { area = "Admin" })"><i class="fa fa-group fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("title.administration.clients")</a>
+        </div>
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("Index", "Society", new { area = "Admin" })"><i class="fa fa-university fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("society.management")</a>
+        </div>
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("Index", "Range", new { area = "Admin" })"><i class="fa fa-search fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("range.management")</a>
+        </div>
+        @*<div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("Index", "ClientType", new { area = "Admin" })"><i class="fa fa-user-o fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("client.type.management")</a>
+        </div>*@
+
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("Bayer", "User", new { area = "Admin" })"><i class="fa fa-user-circle-o fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("title.administration.users.and.roles")</a>
+        </div>
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("EditPage", "Page", new { area = "Admin", PageType = PageType.PRIVACY_POLICY, PageName = LangHelper.Translate("privacy.policy")})"><i class="fa fa-unlock-alt fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("privacy.policy")</a>
+        </div>
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("EditPage", "Page", new { area = "Admin", PageType = PageType.TERMS_OF_SERVICE, PageName = LangHelper.Translate("terms.of.service") })"><i class="fa fa-align-justify fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("terms.of.service")</a>
+        </div>
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("EditPage", "Page", new { area = "Admin", PageType = PageType.LEGAL_NOTICE, PageName = LangHelper.Translate("legal.notice") })"><i class="fa fa-file-text fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("legal.notice")</a>
+        </div>
+
+
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("Index", "Parameter", new { area = "Admin" })"><i class="fa fa-gear fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("parameter.management")</a>
+        </div>
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("Index", "EmailLogs", new { area = "Admin" })"><i class="fa fa-envelope fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("email.logs")</a>
+        </div>
+        <div class="column column-block">
+            <a class="callout text-center" href="@Url.Action("Index", "Log", new { area = "Admin" })"><i class="fa fa-file-text fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("logs")</a>
+        </div>
+        @if (RoleHelper.IsAdminTech)
+        {
+            <div class="column column-block">
+                <a class="callout text-center" href="@Url.Action("Index", "Language", new { area = "Admin" })"><i class="fa fa-flag fa-4x small-mar-bottom"></i><br /> @LangHelper.Translate("language.management")</a>
+            </div>
+        }
+
+
+    </div>
+</div>

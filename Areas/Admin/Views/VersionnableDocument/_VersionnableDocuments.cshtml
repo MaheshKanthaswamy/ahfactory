@@ -1,0 +1,80 @@
+﻿@{
+    var id = Html.RandomID();
+    var detail_tmpl_id = Html.RandomID();
+    var tmpl_id = Html.RandomID();
+    var tmpl_id2 = Html.RandomID();
+}
+
+@*<a href="@Url.Action("AddDocument", "Document", new { area="" })" data-reveal-popup data-reveal-popup-classes="dropzone-reveal" class="button light bordered add-document-container-link">+ @LangHelper.Translate("add.document")</a>
+    <a class="button" href="@Url.Action("Index", "ArchivedDocuments")">@LangHelper.Translate("archived.documents")</a>*@
+
+@(Html.Kendo().Grid<VersionnableDocumentGridModel>()
+    .Name(id)
+    //.Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Columns(columns =>
+    {
+        columns.Bound(m => m.Name);
+        columns.Bound(m => m.Id).Title(" ").Width(150).Filterable(false).Sortable(false)
+        // TODO: Modifier ici pour prendre soit la thumbnail en cache, soit générer le fichier.
+        .ClientTemplate(
+            "# if (IsInCache) { #" +
+            "<img width=\"150\" height=\"150\" src=\"" + @Url.Content("~/app_cache/") + "/#: SearchThumbnailUrl #\" />" +
+            "" +
+            "# } else { #" +
+            "<img width='150' height='150' src='#: SearchThumbnailUrl #&width=150&height=150' />" +
+            "# } #"                        
+        );
+        columns.Bound(m => m.Ranges);
+        columns.Bound(m => m.Category);
+        columns.Bound(m => m.DocumentEndValidityDate).Format("{0:dd/MM/yyyy}");
+        columns.Template(@<text></text>).ClientTemplate("#= kendo.template($(\"\\#" + tmpl_id2 + "\").html())(data) #").Title(LangHelper.Translate("actions"));
+        //columns.Command(commands =>
+        //{
+        //    commands.Edit();
+        //    commands.Destroy();
+        //}).Width(90).Title(LangHelper.Translate("actions"));
+        })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read("Read", "VersionnableDocument")
+            //.Update("CreateOrUpdate", "VersionnableDocument")
+            //.Destroy("Delete", "VersionnableDocument")
+            .Model(model =>
+            {
+                model.Id(c => c.Id);
+            })
+            .Sort(o => o.Add(s => s.Name))
+            .PageSize(30)
+        )
+        .ClientDetailTemplateId(detail_tmpl_id)
+        .Sortable(sorting => { sorting.SortMode(GridSortMode.SingleColumn); })
+        .Filterable()
+        .Pageable(p => p.Refresh(true))
+)
+
+<script id="@detail_tmpl_id" type="text/kendo-tmpl">
+
+    @(Html.Kendo().Grid<VersionnableDocumentDetailGridModel>()
+                  .Name("grid_#=Id#")
+                  .Columns(columns =>
+                  {
+                      columns.Bound(m => m.Version);
+                      columns.Bound(m => m.Name);
+                      columns.Bound(m => m.VersionStart).Format("{0:dd/MM/yyyy}");
+                  })
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadDetails", "VersionnableDocument", new { id = "#=Id#" })).Sort(s => s.Add("Version").Descending())
+                  )
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+    )
+
+</script>
+
+<script id="@(tmpl_id2)" type="text/x-kendo-tmpl">
+    <a href="@Url.Action("Details", "Document", new { area = "" })/#: data.LastVersionId #?FromType=#:data.Category#" class="action-link"><i class="fa fa-search" title=""></i></a>
+    <a href="@Url.Action("EditDocument", "Document", new { area = "" })/#: data.LastVersionId #?FromType=#:data.Category#" class="action-link"><i class="fa fa-edit" title=""></i></a>
+</script>

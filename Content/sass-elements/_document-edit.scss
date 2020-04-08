@@ -1,0 +1,13 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.edit-document {
+    img {
+        border: 1px solid $document-border-color;
+        width: 100%;
+    }
+
+    .k-upload-status, .k-button.k-clear-selected, .k-button.k-upload-selected {
+        display: none; 
+    }
+}

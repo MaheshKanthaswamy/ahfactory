@@ -1,0 +1,109 @@
+﻿@model SearchDocumentModel
+
+@{
+    var id = Html.RandomID();
+    var div_id = Html.RandomID();
+    var documentSize = 200;
+}
+<div class="last-updated-documents" id="@div_id">
+    <div class="add-document-container">
+        <h5 class="add-document-container-title">@LangHelper.Translate("last.updates")</h5>
+    </div>
+    <div class="documents-list">
+        @(Html.Kendo().ListView<DocumentModel>()
+        .Name("DocumentsList_" + id)
+        .HtmlAttributes(new { @class = "documents-carousel" })
+        .TagName("div")
+        .ClientTemplateId("DocumentTemplate_" + id)
+        .DataSource(dataSource =>
+        {
+            dataSource.Read(read => read.Action("Read_LastUpdatedDocuments", "Document").Data("getModel_" + id));
+        })
+        .Events(e => e.DataBound("databound_" + id))
+        )
+    </div>
+</div>
+
+<script type="text/x-kendo-tmpl" id="DocumentTemplate_@(id)">
+    # var idToTake = ThumbnailId == null ? Id : ThumbnailId;  #
+    # var daysRemaining = DaysRemainingBeforeExpiration; #
+    <div class="documents-carousel-element">
+        <a class="document" href="@Url.Action("Details", "Document")/#: Id #?FromType=@Model.DocumentType" title="#: Name #">
+            <div class="document-type">#: TypeName #</div>
+
+            # if (IsInCache) { #
+            <img width="@documentSize" height="@documentSize" src="@Url.Content("~/app_cache/")/#: SearchThumbnailUrl #" />
+            # } else { #
+            <img width="@documentSize" height="@documentSize" src="#: SearchThumbnailUrl #&width=@(documentSize)&height=@(documentSize)" />
+            # } #
+
+            @*<img width="@documentSize" height="@documentSize" src="#: SearchThumbnailUrl #&width=@(documentSize)&height=@(documentSize)" />*@
+            # if(ShowArchivedInfo) { #
+            <div class="document-archived-warning"><i class="fa fa-archive"></i> @Html.Raw(LangHelper.Translate("document.is.archived"))</div>
+            # } else if(ShowValidityWarning) { #
+            <div class="document-validity-warning">
+                <i class="fa fa-warning"></i>
+                # if(daysRemaining == 0) { #
+                @Html.Raw(LangHelper.Translate("end.validity.today"))
+                # } else if(daysRemaining == 1) { #
+                @Html.Raw(LangHelper.Translate("end.validity.tomorrow"))
+                # } else if(daysRemaining > 0) { #
+                @Html.Raw(string.Format(LangHelper.Translate("end.validity.days"), "#: daysRemaining #"))
+                # } #
+            </div>
+
+            # } #
+        </a>
+        <div class="document-name">#: Name #</div>
+        <div class="document-date">@Html.Raw(LangHelper.Translate("end.validity")) : #: kendo.toString(ValidityDate, "d") #</div>
+    </div>
+</script>
+
+<script type="text/javascript">
+    function databound_@(id)(e) {
+        if (this.dataSource.data().length == 0) {
+            $("#@(div_id)").hide();@*$("#DocumentsList_@(id)").append("<h5 class='no-document text-center no-mar-bottom'>@LangHelper.Translate("no.document")</h5>");*@
+        } else {
+            $("#DocumentsList_@(id)").slick({
+                autoplay: true,
+                infinite: true,
+                pauseonmousehover: true,
+                slidesToShow: 6,
+                slidesToScroll: 6,
+                responsive: [
+                      {
+                          breakpoint: 1024,
+                          settings: {
+                              slidesToShow: 3,
+                              slidesToScroll: 3,
+                              infinite: true,
+                              dots: true
+                          }
+                      },
+                      {
+                          breakpoint: 600,
+                          settings: {
+                              slidesToShow: 2,
+                              slidesToScroll: 2
+                          }
+                      },
+                      {
+                          breakpoint: 480,
+                          settings: {
+                              slidesToShow: 1,
+                              slidesToScroll: 1
+                          }
+                      }
+                ]
+            });
+        }
+    }
+
+    function getModel_@(id)() {
+        return {
+            Text: "@Model.Text",
+            RangeId: "@Model.RangeId",
+            DocumentType: "@Model.DocumentType"
+        }
+    }
+</script>

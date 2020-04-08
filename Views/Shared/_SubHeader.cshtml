@@ -1,0 +1,77 @@
+﻿@model SearchDocumentModel
+
+@{
+    var id = Html.RandomID();
+    var guidEmpty = Guid.Empty;
+    var Text = Model != null && !string.IsNullOrWhiteSpace(Model.Text) ? Model.Text : "";
+    var RangeId = Model != null && Model.RangeId.HasValue ? Model.RangeId.Value : guidEmpty;
+}
+
+<div class="sub-header">
+    <div class="row">
+        <div class="small-12 column">
+            <div class="search-input-group">
+                <div class="search-input-group-input">
+                    <input name="Text" type="text" placeholder="@LangHelper.Translate("search")" value="@Text" />
+                </div>
+                <div class="search-input-group-ddl">
+                    <select name="RangeId">
+                        <option value="@guidEmpty" @(RangeId == guidEmpty ? "selected=selected" : "")>@LangHelper.Translate("choose.a.gamme")</option>
+                        @foreach (var range in GlobalVariables.Ranges)
+                        {
+                            <option value="@range.Id" @(range.Id == RangeId ? "selected=selected" : "")>@range.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="search-input-group-submit">
+                    <a id="search-link_@(id)" class="button" href="@Model.SearchLink">
+                        <i class="fa fa-search"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var $link = $("#search-link_@(id)");
+    var textval = "@Model.Text";
+    var rangeval = "@Model.RangeId";
+
+    $(".search-input-group-input > input").keyup(function (e) {
+        var val = $(this).val();
+        var link_href = $link.attr("href");
+
+        textval = val;
+
+        if (e.keyCode == 13) {
+            document.getElementById("search-link_@(id)").click();
+        } else {
+            UpdateLink(textval, rangeval);
+        }
+    });
+
+    $(".search-input-group-ddl > select").change(function () {
+        var val = $(this).val();
+        var link_href = $link.attr("href");
+
+        rangeval = val;
+
+        UpdateLink(textval, rangeval);
+    });
+
+    function UpdateLink(text, range) {
+        var prefix = "?";
+
+        range = range === "@guidEmpty" ? "" : range;
+        if (range !== "" && text !== "") {
+            $link.attr("href", prefix + "RangeId=" + range + "&Text=" + text);
+        } else if (range !== "" && text === "") {
+            $link.attr("href", prefix + "RangeId=" + range);
+        } else if (range === "" && text !== "") {
+            $link.attr("href", prefix + "Text=" + text);
+        } else {
+            $link.attr("href", prefix);
+        }
+    }
+</script>

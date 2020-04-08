@@ -1,0 +1,109 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+$animation-time: $notifmessage-animation-time;
+$progress-height: $notifmessage-progress-height;
+
+@include keyframes(fadeOutInTime) {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+.notif-message {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    max-width: 100%;
+    width: 100%;
+
+    @include breakpoint(medium) {
+        left: auto;
+        width: auto;
+        bottom: 0;
+        top: $global-margin;
+        right: $global-margin;
+    }
+
+    .callout {
+        border-left-width: 0;
+        border-right-width: 0;
+        border-bottom-width: 0;
+        background-color: $notifmessage-background-color;
+        color: $notifmessage-text-color;
+        padding-right: $global-padding*3;
+        margin: 0;
+        border-radius: 0;
+        border-color:$notifmessage-border-color;
+        min-width:150px;
+
+        @include breakpoint(medium) {
+            border-left-width: 1px;
+            border-right-width: 1px;
+            border-bottom-width: 1px;
+        }
+
+        .message {
+            margin: 0;
+            text-align:left;
+        }
+
+        .close-button {
+            color: $notifmessage-close-button-color;
+            -moz-transition: color 0.2s ease-out;
+            -o-transition: color 0.2s ease-out;
+            -webkit-transition: color 0.2s ease-out;
+            transition: color 0.2s ease-out;
+
+            &:hover, &:active, &:focus {
+                color: $notifmessage-close-button-color-active;
+            }
+        }
+
+        .progress {
+            border-radius: 0;
+            height: $progress-height;
+            margin: 0;
+            background-color: $notifmessage-background-color;
+            position: absolute;
+            top: auto;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+
+            &:focus, &:active, &:hover {
+                outline: none;
+            }
+
+            .progress-meter {
+                border-radius: 0;
+                height: $progress-height;
+                background-color: $notifmessage-progress-color;
+                width: 0%;
+                -moz-transition: width $animation-time linear;
+                -o-transition: width $animation-time linear;
+                -webkit-transition: width $animation-time linear;
+                transition: width $animation-time linear;
+            }
+        }
+    }
+
+    &.active {
+        .callout {
+            @include animation(fadeOutInTime $notifmessage-animation-time-fadeout linear $animation-time 1 normal forwards);
+
+            .progress {
+                .progress-meter {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

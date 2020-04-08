@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DocumentGridModel>
+@{
+    ViewBag.Title = Html.Lang("title.administration.documents");
+}
+
+<div class="row">
+    <div class="columns small-12 medium-12 large-12">
+        <h3 class="page-title">
+            <i class="fa fa-file"></i> @ViewBag.Title
+        </h3>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="columns small-12 medium-12 large-12">
+        @using (Html.BeginForm("Upload", "DocumentType", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            <div class="mar-bottom">
+                @(Html.Kendo().Upload()
+                    .Name("File")
+                    .Multiple(false)
+                    .Async(a => a.AutoUpload(false))
+                    .Validation(validation =>
+                    {
+                        validation.MinFileSize(0);
+                    })
+                )
+            </div>
+            <div class="text-right">
+                <button class="button" type="submit">@Html.Lang("add")</button>
+            </div>
+        }
+
+        <a class="button" href="@Url.Action("Index", "ArchivedDocuments")">@LangHelper.Translate("archived.documents")</a>
+        <a class="button" href="@Url.Action("Index", "VersionnableDocument")">@LangHelper.Translate("available.documents")</a>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="columns small-12 medium-12 large-12">
+        @(Html.Kendo().Grid<DocumentGridModel>()
+        .Name("DocumentsGrid")
+        .Columns(columns =>
+        {
+            columns.Bound(m => m.Name).ClientTemplate("<a href='" + Url.Action("DownloadFile", "Api", new { area = "" }) + "?Id=#= Id #'>#= Name #</a>");
+            columns.Bound(m => m.Author);
+            columns.Bound(m => m.ContentType);
+            columns.Bound(m => m.Size);
+            columns.Bound(m => m.Tags);
+            columns.Bound(m => m.DateCreated).Format("{0:dd/MM/yyyy}");
+            columns.Command(commands =>
+            {
+                commands.Destroy();
+            }).Width(180).Title(Html.Lang("actions"));
+        })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(r => r.Action("Read", "DocumentType"))
+            .Destroy(r => r.Action("Delete", "DocumentType"))
+            .Model(model =>
+            {
+                model.Id(c => c.Id);
+            })
+            .PageSize(10)
+        )
+        .Pageable(p => p.Refresh(true))
+        )
+    </div>
+</div>

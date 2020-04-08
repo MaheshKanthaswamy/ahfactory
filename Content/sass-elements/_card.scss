@@ -1,0 +1,58 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.card {
+    position:relative;
+    @include card(1);
+
+    &.can-hover {
+        -moz-transition: all 0.2s linear;
+        -o-transition: all 0.2s linear;
+        -webkit-transition: all 0.2s linear;
+        transition: all 0.2s linear;
+
+        &:hover {
+            @include card(2);
+        }
+    }
+
+    margin-bottom: $global-margin;
+    border-radius: $card-border-radius;
+    overflow:hidden;
+
+    .card-title {
+        padding-top: $global-padding;
+        padding-bottom: $global-padding;
+        padding-left: $global-padding;
+        padding-right: $global-padding;
+        text-transform: uppercase;
+        background-color: $card-title-background-color;
+        color: $card-title-text-color;
+        border-top-left-radius: $card-border-radius;
+        border-top-right-radius: $card-border-radius;
+    }
+
+    .card-content {
+        padding-top: $global-padding;
+        padding-bottom: $global-padding;
+        padding-left: $global-padding;
+        padding-right: $global-padding;
+        background-color: $card-content-background-color;
+        color: $card-content-text-color;
+
+        div, span, p, h1, h2, h3, h4, h5, h6, label {
+            color: $card-content-text-color;
+        }
+
+        border-bottom-left-radius: $card-border-radius;
+        border-bottom-right-radius: $card-border-radius;
+    }
+
+    .card {
+        box-shadow:none; 
+        border:none;
+        border-top-left-radius:0;
+        border-top-right-radius:0; 
+        margin-bottom:0; 
+    }
+}

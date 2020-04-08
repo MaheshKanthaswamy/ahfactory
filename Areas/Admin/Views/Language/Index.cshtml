@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = Html.Lang("title.administration.languages");
+}
+
+<div class="row">
+    <div class="columns large-12">
+        <h3 class="page-title">
+            <i class="fa fa-flag"></i> @ViewBag.Title
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="columns small-12 medium-4 large-3">
+        @using (Html.BeginForm("ImportResources", "Language", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="mar-bottom">
+                @(Html.Kendo().Upload()
+                    .Name("File")
+                    .Multiple(false)
+                    .Async(a => a.AutoUpload(false))
+                    .Validation(validation =>
+                    {
+                        validation.MinFileSize(0);
+                    })
+                )
+            </div>
+            <div class="text-right">
+                <button class="k-button inline-block vmiddle">@Html.Lang("import.translations")</button>
+            </div>
+
+        }
+    </div>
+
+    <div class="columns small-12 medium-8 large-9">
+        @(Html.Kendo().TabStrip()
+            .Name("Localization")
+            .Items(i =>
+            {
+                i.Add().Text(Html.Lang("languages")).Content(Html.Partial("_Languages").ToHtmlString()).Selected(true);
+                i.Add().Text(Html.Lang("keys")).Content(Html.Partial("_ResourceKeys").ToHtmlString());
+            })
+        )
+    </div>
+</div>

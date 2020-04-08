@@ -1,0 +1,20 @@
+﻿@{
+    var id = Html.RandomID();
+    var detail_tmpl_id = Html.RandomID();
+    var tmpl_id = Html.RandomID();
+}
+
+
+<div class="row">
+    <div class="column small-12">
+        <a href="@Url.Action("AddDocument", "Document", new { area="" })" data-reveal-popup data-reveal-popup-classes="dropzone-reveal" class="button light bordered add-document-container-link">+ @LangHelper.Translate("add.document")</a>
+        @(Html.Kendo().TabStrip()
+            .Name("DocumentTab")
+            .Items(i =>
+            {
+                i.Add().Text(Html.Lang("documents")).Content(Html.Partial("_VersionnableDocuments").ToHtmlString()).Selected(true);
+                i.Add().Text(Html.Lang("archived.documents")).Content(Html.Partial("_ArchivedDocuments").ToHtmlString());
+            })
+        )
+    </div>
+</div>

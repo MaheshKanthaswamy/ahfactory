@@ -1,0 +1,133 @@
+﻿@model UserInfoModel
+
+@{
+    var id = Html.RandomID();
+    var selectedSexe = Model == null ? Sexe.MR : Model.Sexe;
+    var selectedRanges = Model.Ranges == null ? new List<RangeModel>(): Model.Ranges;
+    var rangecpt = 0;
+    var rangecount = selectedRanges.Count();
+}
+
+<div class="row">
+    <div class="small-12 medium-6 large-5 medium-centered columns">
+        <div class="logon-form">
+            @using (Html.BeginForm("Infos", "User", FormMethod.Post, new { id = id }))
+            {
+                @Html.HiddenFor(m => m.Id)
+
+                <fieldset>
+                    @Html.ValidationMessage("")
+                    <legend>@Html.Lang("my.account")</legend>
+
+                    <div class="row">
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Sexe)
+                        </div>
+                        <div class="small-12 medium-8 column  ftel-editor-field">
+                            @foreach (var sexe in Enum.GetValues(typeof(Sexe)))
+                            {
+                                var randomId = Html.RandomID();
+                                <input id="@randomId" type="radio" name="Sexe" value="@sexe.ToString()" @(selectedSexe == (Sexe)sexe ? "checked=checked" : "") /> <label for="@randomId">@Html.Lang(sexe.ToString().ToLower())</label>
+                            }
+                            @Html.ValidationMessageFor(m => m.Sexe)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Lastname)
+                        </div>
+                        <div class="small-12 medium-8 column  ftel-editor-field">
+                            @Html.TextBoxFor(m => m.Lastname)
+                            @Html.ValidationMessageFor(m => m.Lastname)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Firstname)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.Firstname)
+                            @Html.ValidationMessageFor(m => m.Firstname)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Function)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.Function)
+                            @Html.ValidationMessageFor(m => m.Function)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Email)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.Email, new { onselectstart = "return false", onpaste = "return false;", onCopy = "return false", onCut = "return false", onDrag = "return false", onDrop = "return false", autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Society)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.DisplayFor(m => m.Society)&nbsp;
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.EndValidityDate)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.DisplayFor(m => m.EndValidityDate)&nbsp;
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            <label>@Html.Lang("ranges")</label>
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @foreach (var range in selectedRanges)
+                            {
+                                <span class="range-choice">@range.Name@(rangecpt < rangecount - 1 ? ", " : "")</span>
+                                rangecpt++;
+                            }
+                            &nbsp;
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Password)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.PasswordFor(m => m.Password, new { onselectstart = "return false", onpaste = "return false;", onCopy = "return false", onCut = "return false", onDrag = "return false", onDrop = "return false", autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.VerifPassword)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.PasswordFor(m => m.VerifPassword, new { onselectstart = "return false", onpaste = "return false;", onCopy = "return false", onCut = "return false", onDrag = "return false", onDrop = "return false", autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.VerifPassword)
+                        </div>
+
+                        <div class="small-12 column">
+                            <div class="ftel-editor-field">
+                                <div class="ftel-editor-field-checkbox-container">
+                                    <input id="checkbox_condition" name="Newsletter" type="checkbox" value="true" @(Model.Newsletter ? "checked=checked" : "") />
+                                    <label for="checkbox_condition">@Html.Lang("subscribe.to.newsletter")</label>
+                                    <input name="Newsletter" type="hidden" value="false">
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Newsletter)
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <button type="submit" class="button">@Html.Lang("update")</button>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $("#@id").ftelvalidation(true);
+    });
+</script>

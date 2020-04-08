@@ -1,0 +1,34 @@
+﻿@model DocumentModel
+@{
+    var id = Html.RandomID();
+}
+
+<div class="dropzone-zone">
+    <div class="title-subtitle">
+        <div class="title">+ @LangHelper.Translate("dropzone.title")</div>
+        <div class="subtitle">@LangHelper.Translate("dropzone.subtitle")</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function onSuccess(e) {
+        if (e.operation == "upload" && e.response.Status == "valid") {
+            document.location = "@Url.Action("EditDocument", "Document")?Id=" + e.response.DocumentId;
+        }
+    }
+</script>
+
+@(Html.Kendo().Upload()
+    .Name("File")
+    .Async(a => a
+        .Save("Upload", "Document", new { FromType = Model.Type })
+        .AutoUpload(true)
+    )
+    .Events(e => e.Success("onSuccess"))
+    .ShowFileList(false)
+    .DropZone(".dropzone-zone")
+    .Validation(validation =>
+    {
+        validation.MinFileSize(0);
+    })
+)

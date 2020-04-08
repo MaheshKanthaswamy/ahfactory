@@ -1,0 +1,28 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.popup-email {
+    padding: 0;
+    line-height: 0;
+    font-size: 0;
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-50%);
+
+    iframe {
+        overflow: hidden;
+    }
+}
+
+.emails-logs {
+    .tabs {
+        & > li.tabs-title {
+            &.is-active {
+                a {
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

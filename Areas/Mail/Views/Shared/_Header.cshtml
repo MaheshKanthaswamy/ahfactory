@@ -1,0 +1,108 @@
+﻿@{
+    var headline = (string)ViewBag.Headline;
+    var siteurl = (string)ViewBag.SiteURL;
+}
+
+@{
+    var header_background_color = "#fafafa";
+}
+
+<!--[if mso]>
+<table border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;"><tr><td>
+<![endif]-->
+<div style="margin:0 auto;max-width:600px;">
+    <table cellpadding="0" cellspacing="0" style="font-size:0;width:100%;" align="center" border="0">
+        <tbody>
+            <tr>
+                <td style="text-align:center;vertical-align:top;font-size:0;padding:20px 0;padding-bottom:20px;padding-top:20px;">
+                    <!--[if mso]>
+                    <table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:middle;width:396px;">
+                    <![endif]-->
+                    <div aria-labelledby="mj-column-per-100" class="mj-column-per-100" style="vertical-align:middle;display:inline-block;font-size:13px;text-align:left;width:100%;">
+                        <table cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0">
+                            <tbody>
+                                <tr>
+                                    <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="left">
+                                        <div style="cursor:auto;color:#000000;font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:11px;line-height:22px;">
+                                            <span style="font-size: 11px">@headline</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    @*<!--[if mso]>
+                        </td><td style="vertical-align:middle;width:198px;">
+                            <![endif]-->
+                        <div aria-labelledby="mj-column-per-33" class="mj-column-per-33" style="vertical-align:middle;display:inline-block;font-size:13px;text-align:left;width:100%;">
+                            <table cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="right">
+                                            <div style="cursor:auto;color:#000000;font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:11px;line-height:22px;">
+                                                <span style="font-size: 11px"><a href="[[URL]]" style="text-decoration: none; color: inherit;">[[PERMALINK_LABEL]]</a></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--[if mso]>
+                        </td></tr></table>
+                        <![endif]-->*@
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--[if mso]>
+</td></tr></table>
+<![endif]-->
+<!--[if mso]>
+<table border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;"><tr><td>
+<![endif]-->
+<div style="margin:0 auto;max-width:600px;background:@(header_background_color);">
+    <table cellpadding="0" cellspacing="0" style="font-size:0;width:100%;background:@(header_background_color);" align="center" border="0">
+        <tbody>
+            <tr>
+                <td style="text-align:center;vertical-align:top;font-size:0;padding:20px 0;padding-bottom:20px;padding-top:20px;">
+                    <!--[if mso]>
+                    <table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
+                    <![endif]-->
+                    <div aria-labelledby="mj-column-per-100" class="mj-column-per-100" style="vertical-align:top;display:inline-block;font-size:13px;text-align:left;width:100%;">
+                        <table cellpadding="0" cellspacing="0" style="vertical-align:top;" width="100%" border="0">
+                            <tbody>
+                                <tr>
+                                    <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="center">
+                                        <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0px;width:100%" width="100%" align="center" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td align="left">
+                                                        <a href="@siteurl" target="_blank">
+                                                            <img alt="AHDigitalFactory" src="@GlobalVariables.LogoURL" style="border:none;display:block;outline:none;text-decoration:none;width:250px;height:auto;" width="250" height="auto">
+                                                        </a>
+                                                    </td>
+                                                    <td align="right" style="width:60px;">
+                                                        <a href="@siteurl" target="_blank">
+                                                            <img alt="Bayer" src="@GlobalVariables.BayerEmailLogoURL" style="border:none;display:block;outline:none;text-decoration:none;width:100%;height:auto;" width="60" height="auto">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--[if mso]>
+                    </td></tr></table>
+                    <![endif]-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--[if mso]>
+</td></tr></table>
+<![endif]-->

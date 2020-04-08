@@ -1,0 +1,164 @@
+﻿<div class="row">
+    <div class="columns large-12">
+        @(Html.Kendo().Grid<RoleGridModel>()
+        .Name("RolesGrid")
+        .HtmlAttributes(new { @class = "black-grid medium-sized" })
+        .ToolBar(e => e.Create())
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        .Columns(columns =>
+        {
+            columns.Bound(m => m.Name);
+            columns.Bound(m => m.Description);
+            columns.Command(commands =>
+            {
+                commands.Edit();
+                commands.Destroy();
+            }).Width(262)
+            .Title(Html.Lang("actions"));
+        })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read("Read", "Role")
+            .Update("CreateOrUpdate", "Role")
+            .Create("CreateOrUpdate", "Role")
+            .Destroy("Delete", "Role")
+            .Model(model =>
+            {
+                model.Id(c => c.Role_ID);
+            })
+            .Sort(o => o.Add(s => s.Name))
+            .PageSize(5)
+        )
+            .Selectable(s =>
+            {
+                s.Enabled(true);
+                s.Type(GridSelectionType.Row);
+                s.Mode(GridSelectionMode.Single);
+            })
+        .Events(e => { e.Change("OnChange"); })
+        .Pageable(p => p.Refresh(true))
+        )
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="columns large-12">
+        <label>Utilisateur</label>
+        @Html.Hidden("HiddenUsername")
+        @(Html.Kendo().AutoComplete()
+                  .Name("UsersAutoComplete")
+                  .DataTextField("FullName")
+                  .MinLength(2)
+                  .Events(events => events.Select("UserSelect"))
+                  .DataSource(source =>
+                  {
+                      source.Read(read =>
+                      {
+                          read.Action("ReadUsersAndGroups", "Role").Data("TextData");
+                      })
+                      .ServerFiltering(true);
+                  })
+                  .HtmlAttributes(new { style="width: 30%;" })
+        )
+        @*<button class="k-button k-button-icontext k-grid-add" onclick="AddUserToRole()">Ajouter</button>*@
+        <button class="button primary no-mar-bottom" onclick="AddUserToRole()">@Html.Lang("add")</button>
+        @*<button class="button" onclick="AddUserToRole()">Ajouter</button>*@
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="columns large-12">
+        @(Html.Kendo().Grid<UserInRoleGridModel>()
+        .Name("UsersInRoleGrid")
+        .Columns(columns =>
+        {
+            columns.Bound(m => m.Login);
+            columns.Bound(m => m.FullName);
+            columns.Command(commands =>
+            {
+                commands.Destroy();
+            }).Width(180).Title(Html.Lang("actions"));
+        })
+        .AutoBind(false)
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(r => r.Action("ReadUsersInRole", "Role").Data("RoleData"))
+            .Destroy(d => d.Action("DeleteUserInRole", "Role").Data("RoleData"))
+            .Model(model =>
+            {
+                model.Id(c => c.Login);
+            })
+            .PageSize(5)
+        )
+        .Pageable(p => p.Refresh(true))
+        )
+    </div>
+</div>
+
+<script type="text/javascript">
+    //
+    function AddUserToRole()
+    {
+        var roleGrid = $("#RolesGrid").data("kendoGrid");
+        var selectedRole = roleGrid.dataItem(roleGrid.select());
+        if (!selectedRole) return;
+        if (!$("#HiddenUsername").val()) return;
+
+        var roleId = selectedRole.Role_ID;
+        var login = $("#HiddenUsername").val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("AddUserToRole","Role")',
+            data: { login: login, roleId: roleId },
+            success: function (result)
+            {
+                if (result === true)
+                {
+                    var usersInRoleGrid = $('#UsersInRoleGrid').data('kendoGrid');
+                    usersInRoleGrid.dataSource.read();
+                    usersInRoleGrid.refresh();
+
+                    $("#HiddenUsername").val('');
+                    $('#UsersAutoComplete').val('');
+                }
+                else
+                {
+                    console.log(result);
+                    alert(result);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    // Auto Complete
+    function UserSelect(e) {
+        var DataItem = this.dataItem(e.item.index());
+        $("#HiddenUsername").val(DataItem.UserName);
+    }
+    function TextData() {
+        return {
+            Text: $("#UsersAutoComplete").val()
+        };
+    }
+
+    // UserInRole Grid
+    function OnChange(e)
+    {
+        var roleGrid = $("#RolesGrid").data("kendoGrid");
+        var selectedRole = roleGrid.dataItem(roleGrid.select());
+
+        if (selectedRole)
+            $("#UsersInRoleGrid").data("kendoGrid").dataSource.read();
+    }
+    function RoleData()
+    {
+        var roleGrid = $("#RolesGrid").data("kendoGrid");
+        return {
+            RoleId: roleGrid.dataItem(roleGrid.select()).Role_ID
+        };
+    }
+</script>

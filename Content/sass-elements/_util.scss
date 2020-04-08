@@ -1,0 +1,47 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.flex-center {
+    @include flex-custom();
+    @include flex-align-center();
+}
+
+.flex-1-1-0 {
+    @include flex-1-1-0();
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.no-mar-bottom {
+    margin-bottom: 0 !important;
+}
+
+.no-mar-top {
+    margin-top: 0 !important;
+}
+
+.mar-bottom {
+    margin-bottom: $global-margin !important;
+}
+
+.mar-left {
+    margin-left: $global-margin !important;
+}
+
+.mar-right {
+    margin-right: $global-margin !important;
+}
+
+.mar-top {
+    margin-top: $global-margin !important;
+}
+
+.small-mar-bottom {
+    margin-bottom: $global-margin/2 !important;
+}
+
+.small-text {
+    font-size: $global-font-size*0.75; 
+}

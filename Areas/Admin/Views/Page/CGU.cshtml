@@ -1,0 +1,80 @@
+﻿@model EditPageModel
+@{
+    var idtabs = Html.RandomID();
+    var id = Html.RandomID();
+    var langcpt = 0;
+}
+
+@* Suppréssion de fonctionnalités dans le ImageBrowser *@
+<style>
+    .k-filebrowser .k-filebrowser-toolbar {
+        line-height: 2.9em;
+    }
+
+    .k-filebrowser-dialog .k-imagebrowser > .k-floatwrap:first-child {
+        display: none;
+    }
+
+    .k-filebrowser-dialog .k-edit-label, .k-filebrowser-dialog .k-edit-field {
+        display: none;
+    }
+
+    .k-filebrowser-toolbar > .k-toolbar-wrap > .k-button.k-button-icon:first-of-type {
+        display: none;
+    }
+
+    /*.k-filebrowser-dialog .k-toolbar-wrap button.k-button:nth-of-type(1n) {
+        display: none;
+    }*/
+
+    .k-filebrowser-dialog .k-tiles-arrange {
+        display: none;
+    }
+</style>
+
+<div class="html-spot-editor" id="@(id)">
+    @using (Html.BeginForm("EditPage", "Page", FormMethod.Post, new { id = "form_" + id }))
+    {
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Type)
+
+        @(
+            Html.Kendo().EditorFor(m => Model.Content).HtmlAttributes(new { id = "editor_" + id + "_" + Model.Id })
+            .Tools(tools => tools
+                .Clear()
+                .Bold().Italic().Underline().Strikethrough()
+                .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                .InsertUnorderedList().InsertOrderedList()
+                .CreateLink().Unlink()
+                .InsertImage()
+                .FontName()
+                .FontSize()
+                .FontColor()
+                .TableEditing()
+            )
+            //.ImageBrowser(imageBrowser => imageBrowser
+            //    .Image(u => u.Url(GlobalVariables.MediaUrl + "/Uploads/ImageBrowsers/" + Model.HotSpotId + "/{0}"))
+            //    .Read(u => u.Url(GlobalVariables.MediaUrl + "/media/ImageBrowser/Read?uid=" + Model.HotSpotId))
+            //    .Create(u => u.Url(GlobalVariables.MediaUrl + "/media/ImageBrowser/Create?uid=" + Model.HotSpotId))
+            //    .Destroy(u => u.Url(GlobalVariables.MediaUrl + "/media/ImageBrowser/Destroy?uid=" + Model.HotSpotId))
+            //    .Upload(u => u.Url(GlobalVariables.MediaUrl + "/media/ImageBrowser/Upload?uid=" + Model.HotSpotId))
+            //    .Thumbnail(u => u.Url(GlobalVariables.MediaUrl + "/media/ImageBrowser/Thumbnail?uid=" + Model.HotSpotId))
+            //)
+            .Messages(m => m.ImageBrowser(i => i.EmptyFolder(LangHelper.Translate("image.browser.directory.is.empty"))))
+
+        )
+
+        <div class="row">
+            <div class="small-12 column text-right">
+                <button data-close type="button" class="button">@Html.Lang("cancel")</button>
+                <button type="submit" class="button mar-bottom"><i class="fa fa-refresh"></i> @Html.Lang("update")</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#form_@(id)").ftelvalidation();
+    })
+</script>

@@ -1,0 +1,164 @@
+﻿@model RegisterModel
+
+@{
+    Layout = "~/Views/Shared/_LogOnLayout.cshtml";
+    var id = Html.RandomID();
+    var allRanges = (IEnumerable<RangeModel>)ViewBag.Ranges;
+
+    var selectedSexe = Model == null ? Sexe.MR : Model.Sexe;
+    var selectedRanges = Model == null ? new List<Guid>() : Model.RangesIds;
+}
+
+<div class="row">
+    <div class="small-12 medium-6 large-5 medium-centered columns">
+        <div class="logon-form">
+            @using (Html.BeginForm("Register", "User", FormMethod.Post, new { id = id }))
+            {
+                @Html.HiddenFor(m => m.ReturnUrl)
+
+                <fieldset>
+                    @Html.ValidationMessage("")
+                    <legend>@Html.Lang("ask.access")</legend>
+
+                    <div class="row">
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Sexe)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @foreach (var sexe in Enum.GetValues(typeof(Sexe)))
+                            {
+                                var randomId = Html.RandomID();
+                                <input id="@randomId" type="radio" name="Sexe" value="@sexe.ToString()" @(selectedSexe == (Sexe)sexe ? "checked=checked" : "") /> <label for="@randomId">@Html.Lang(sexe.ToString().ToLower())</label>
+                            }
+                            @Html.ValidationMessageFor(m => m.Sexe)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Lastname)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.Lastname)
+                            @Html.ValidationMessageFor(m => m.Lastname)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Firstname)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.Firstname)
+                            @Html.ValidationMessageFor(m => m.Firstname)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Function)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.Function)
+                            @Html.ValidationMessageFor(m => m.Function)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Email)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.Email, new { onselectstart = "return false", onpaste = "return false;", onCopy = "return false", onCut = "return false", onDrag = "return false", onDrop = "return false", autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.VerifEmail)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.VerifEmail, new { onselectstart = "return false", onpaste = "return false;", onCopy = "return false", onCut = "return false", onDrag = "return false", onDrop = "return false", autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.VerifEmail)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Password)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.PasswordFor(m => m.Password, new { onselectstart = "return false", onpaste = "return false;", onCopy = "return false", onCut = "return false", onDrag = "return false", onDrop = "return false", autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.VerifPassword)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.PasswordFor(m => m.VerifPassword, new { onselectstart = "return false", onpaste = "return false;", onCopy = "return false", onCut = "return false", onDrag = "return false", onDrop = "return false", autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.VerifPassword)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.Society)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.Society)
+                            @Html.ValidationMessageFor(m => m.Society)
+                        </div>
+
+                        <div class="small-12 medium-4 column">
+                            @Html.LabelFor(m => m.BayerContactEmail)
+                        </div>
+                        <div class="small-12 medium-8 column ftel-editor-field">
+                            @Html.TextBoxFor(m => m.BayerContactEmail, new { onselectstart = "return false", onpaste = "return false;", onCopy = "return false", onCut = "return false", onDrag = "return false", onDrop = "return false", autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.BayerContactEmail)
+                        </div>
+
+                        <div class="small-12 column">
+                            @Html.LabelFor(m => m.RangesIds)
+                        </div>
+                        <div class="small-12 column ftel-editor-field">
+                            <ul class="no-bullet no-mar-bottom">
+                                @foreach (var range in allRanges.OrderBy(a => a.Name))
+                                {
+                                    <li class="range-choice">
+                                        <input id="range_@range.Id" type="checkbox" name="RangesIds[]" value="@range.Id" @(selectedRanges.Any(r => r == range.Id) ? "checked=checked" : "") /> <label for="range_@range.Id">@range.Name</label>
+                                    </li>
+                                }
+                            </ul>
+                            @Html.ValidationMessageFor(m => m.RangesIds)
+                        </div>
+
+                        <div class="small-12 column">
+                            <div class="ftel-editor-field">
+                                <div class="ftel-editor-field-checkbox-container">
+                                    <input class="checkbox" id="checkbox_condition" name="Newsletter" type="checkbox" value="true" />
+                                    <label for="checkbox_condition">@Html.Lang("subscribe.to.newsletter")</label>
+                                    <input name="Newsletter" type="hidden" value="false">
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Newsletter)
+                        </div>
+
+                        <div class="small-12 column">
+                            <div class="ftel-editor-field">
+                                <div class="ftel-editor-field-checkbox-container">
+                                    <input class="checkbox" id="checkbox_condition2" name="AcceptConditions" type="checkbox" value="true"/>
+                                    <span for="checkbox_condition2">@Html.Raw(string.Format(LangHelper.Translate("accept.conditions"), Url.Action("TermsOfService", "Page", new {area =""})))</span>
+                                    <input name="AcceptConditions" type="hidden" value="false">
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.AcceptConditions)
+
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <a class="button light bordered no-mar-bottom" href="@Url.Action("LogOn", "User")">@Html.Lang("back")</a>
+                        <button type="submit" class="button">@Html.Lang("request")</button>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".showLostPassword").click(function () {
+            $(".forgotPasswordDiv").slideDown();
+        });
+        $("#@id").ftelvalidation(true);
+    });
+</script>

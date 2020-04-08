@@ -1,0 +1,111 @@
+﻿<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" id="html-email">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <style type="text/css">
+        #outlook a {
+            padding: 0;
+        }
+
+        .ReadMsgBody {
+            width: 100%;
+        }
+
+        .ExternalClass {
+            width: 100%;
+        }
+
+            .ExternalClass * {
+                line-height: 100%;
+            }
+
+        body {
+            margin: 0;
+            padding: 0;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table, td {
+            border-collapse: collapse;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+        }
+
+        p {
+            display: block;
+            margin: 13px 0;
+        }
+    </style>
+    <!--[if !mso]><!-->
+    <style type="text/css">
+        @@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+        @@import url(https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700);
+    </style>
+    <style type="text/css">
+        @@media only screen and (max-width:480px) {
+            @@-ms-viewport {
+                width: 320px;
+            }
+
+            @@viewport {
+                width: 320px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet" type="text/css">
+    <!--<![endif]-->
+    <style type="text/css">
+        @@media only screen and (min-width:480px) {
+            .mj-column-per-66, * [aria-labelledby="mj-column-per-66"] {
+                width: 66% !important;
+            }
+
+            .mj-column-per-33, * [aria-labelledby="mj-column-per-33"] {
+                width: 33% !important;
+            }
+
+            .mj-column-per-100, * [aria-labelledby="mj-column-per-100"] {
+                width: 100% !important;
+            }
+
+            .mj-column-per-10, * [aria-labelledby="mj-column-per-10"] {
+                width: 10% !important;
+            }
+
+            .mj-column-per-80, * [aria-labelledby="mj-column-per-80"] {
+                width: 80% !important;
+            }
+
+            .mj-column-per-30, * [aria-labelledby="mj-column-per-30"] {
+                width: 30% !important;
+            }
+
+            .mj-column-per-50, * [aria-labelledby="mj-column-per-50"] {
+                width: 50% !important;
+            }
+        }
+    </style>
+</head>
+<body style="background: #eeeeee;">
+    <div style="background-color:#eeeeee;">
+
+        @{ Html.RenderPartial("_Header");}
+
+        @RenderBody()
+
+        @{ Html.RenderPartial("_Footer");}
+    </div>
+</body>
+</html>

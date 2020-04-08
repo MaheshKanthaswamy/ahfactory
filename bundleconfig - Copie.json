@@ -1,0 +1,76 @@
+[
+    {
+        "outputFileName": "Content/app.bundle.css",
+        "inputFiles": [
+            "Content/kendo/web/kendo.common-material.css",
+            "Content/kendo/web/kendo.material.css",
+            "Content/Site.css"
+        ]
+    },
+    {
+        "outputFileName": "Scripts/beforeBody.bundle.js",
+        "inputFiles": [
+            "Scripts/modernizr-2.8.3.js",
+            "Scripts/fastclick.js",
+            "Scripts/function.js"
+        ]
+    },
+    {
+        "outputFileName": "Scripts/afterBody.bundle.js",
+        "inputFiles": [
+            "Scripts/respond.js",
+            "Scripts/jquery.cookie.js",
+            "Scripts/jquery.validate.js",
+            "Scripts/jquery.lazyload.js",
+            "Scripts/jquery.validate.unobtrusive.js",
+            "Scripts/jquery.unobtrusive-ajax.js",
+            "Scripts/isElementInViewport.js",
+            "Scripts/ftel/ftelkendogridcrud.js",
+            "Scripts/ftel/ftelvalidation.js",
+            "Scripts/ftel/fteldatapopup.js",
+            "Scripts/ftel/fteldataconfirm.js",
+            "Scripts/slick.js",
+            "Scripts/moment-with-locales.min.js"
+        ]
+    },
+    {
+        "outputFileName": "Scripts/coffee.bundle.js",
+        "inputFiles": [
+            "Scripts/Coffee/*.js"
+        ]
+    },
+    {
+        "outputFileName": "Scripts/foundation.bundle.js",
+        "inputFiles": [
+            "Scripts/foundation/vendor/motion-ui.js",
+            "Scripts/foundation/vendor/what-input.js",
+            "Scripts/foundation/foundation.core.js",
+            "Scripts/foundation/foundation.util.*.js",
+            "Scripts/foundation/foundation.abide.js",
+            "Scripts/foundation/foundation.accordion.js",
+            "Scripts/foundation/foundation.dropdown.js",
+            "Scripts/foundation/foundation.dropdownMenu.js",
+            "Scripts/foundation/foundation.equalizer.js",
+            "Scripts/foundation/foundation.interchange.js",
+            "Scripts/foundation/foundation.responsiveMenu.js",
+            "Scripts/foundation/foundation.responsiveToggle.js",
+            "Scripts/foundation/foundation.reveal.js",
+            "Scripts/foundation/foundation.tabs.js",
+            "Scripts/foundation/foundation.toggler.js"
+        ]
+    },
+    {
+        "outputFileName": "Scripts/kendo.bundle.js",
+        "inputFiles": [
+            "Scripts/kendo/kendo.web.min.js",
+            "Scripts/kendo/kendo.aspnetmvc.min.js",
+            "Scripts/kendo/cultures/kendo.culture.fr-FR.min.js"
+        ]
+    },
+    {
+        "outputFileName": "Scripts/html5.min.js",
+        "inputFiles": [
+            "Scripts/html5.js"
+        ]
+    }
+]

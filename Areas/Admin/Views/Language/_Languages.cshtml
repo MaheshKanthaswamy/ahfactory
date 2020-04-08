@@ -1,0 +1,94 @@
+﻿
+@(Html.Kendo().Grid<LanguageGridModel>()
+    .Name("LanguagesGrid")
+    .ToolBar(e => e.Create())
+    .Columns(columns =>
+    {
+        columns.Bound(m => m.LanguageId).Hidden();
+        columns.Bound(m => m.Name);
+        columns.Command(commands =>
+        {
+            commands.Edit();
+            commands.Destroy();
+        }).Width(262).Title(Html.Lang("actions"));
+    })
+    .Selectable(s =>
+    {
+        s.Enabled(true);
+        s.Type(GridSelectionType.Row);
+        s.Mode(GridSelectionMode.Single);
+    })
+    .Events(e => e.Change("OnChange"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Create(r => r.Action("CreateOrUpdate", "Language"))
+        .Update(r => r.Action("CreateOrUpdate", "Language"))
+        .Read(r => r.Action("Read", "Language"))
+        .Destroy(d => d.Action("Delete", "Language"))
+        .Model(model =>
+        {
+            model.Id(c => c.LanguageId);
+            model.Field(c => c.LanguageId).Editable(false);
+        })
+        .PageSize(5)
+    )
+    .Pageable(p => p.Refresh(true))
+)
+
+
+
+@(Html.Kendo().Grid<LocaleResourceValueGridModel>()
+    .Name("StringValuesGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(m => m.LocalStringId).Hidden();
+        columns.Bound(m => m.LanguageName).Hidden();
+        columns.Bound(m => m.LanguageId).Hidden();
+        columns.Bound(m => m.ResourceKey);
+        columns.Bound(m => m.Value);
+        columns.Command(commands =>
+        {
+            commands.Edit();
+        }).Width(145).Title(Html.Lang("actions"));
+    })
+    .AutoBind(false)
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Update(r => r.Action("Update", "ResourceValue").Data("LanguageData"))
+        .Read(r => r.Action("Read", "ResourceValue").Data("LanguageData"))
+        .Model(model =>
+        {
+            model.Id(c => c.LocalStringId);
+            model.Field(c => c.LocalStringId).Editable(false);
+            model.Field(c => c.LanguageId).Editable(false);
+            model.Field(c => c.LanguageName).Editable(false);
+            model.Field(c => c.ResourceKeyId).Editable(false);
+            model.Field(c => c.ResourceKey).Editable(false);
+        })
+        .PageSize(10)
+    )
+    .Pageable(p => p.Refresh(true))
+)
+
+
+
+<script type="text/javascript">
+    function OnChange(e)
+    {
+        var langGrid = $("#LanguagesGrid").data("kendoGrid");
+        var selectedLanguage = langGrid.dataItem(langGrid.select());
+
+        if (selectedLanguage)
+            $("#StringValuesGrid").data("kendoGrid").dataSource.read();
+        }
+        function LanguageData()
+        {
+        var langGrid = $("#LanguagesGrid").data("kendoGrid");
+        return {
+            LanguageId: langGrid.dataItem(langGrid.select()).LanguageId
+        };
+    }
+</script>
+
+
+

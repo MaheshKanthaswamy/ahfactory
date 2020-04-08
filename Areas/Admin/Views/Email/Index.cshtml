@@ -1,0 +1,40 @@
+﻿@model IEnumerable<EmailTemplateGridModel>
+@{
+    ViewBag.Title = Html.Lang("title.administration.mails");
+}
+
+<div class="row">
+    <div class="columns large-12">
+        @(Html.Kendo().Grid<EmailTemplateGridModel>(Model)
+            .ToolBar(t => t.Custom().Action("Create", "Email"))
+            .Name("EmailTemplateGrid")
+            .Columns(c =>
+            {
+                c.Bound(x => x.Name);
+                c.Bound(x => x.To).Width(300);
+                c.Bound(x => x.Subject);
+                //c.Bound(x => x.LanguageCode)
+                //    .HeaderHtmlAttributes(new { @class = "text-center" })
+                //    .HtmlAttributes(new { @class = "text-center" })
+                //    .Width(100);
+                c.Bound(x => x.EmailTemplateId)
+                    .Width(120)
+                    .HeaderHtmlAttributes(new { @class = "text-center" })
+                    .HtmlAttributes(new { @class = "text-center" })
+                    .Title(Html.Lang("actions"))
+                    .ClientTemplate("<a class='k-button' href='" + Url.Action("Update", "Email") + "/?id=#=EmailTemplateId#'>" + Html.Lang("edit") + "</a>");
+            })
+            .DataSource(ds =>
+            {
+                ds.Ajax()
+                    .Read("Read", "Email", new { area = "Admin" })
+                    .Model(m =>
+                    {
+                        m.Id(x => x.EmailTemplateId);
+                    });
+            })
+        )
+    </div>
+</div>
+
+

@@ -1,0 +1,76 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+@import "mixin";
+
+body {
+    @include viewport-unit(min-height, 100vh);
+    @include flex-custom();
+    -webkit-box-orient: vertical;
+    -webkit-flex-flow: column;
+    -ms-flex-flow: column;
+    flex-flow: column;
+
+    main {
+        @include flex-1-1-0();
+    }
+
+    header, footer, main {
+        // Permet d'indiquer aux navigateurs de se baser sur la taille du contenu pour le flex
+        -webkit-box-flex-shrink: 0;
+        -moz-box-flex-shrink: 0;
+        -webkit-flex-shrink: 0;
+        -ms-flex-shrink: 0;
+        flex-shrink: 0;
+    }
+
+    /*@include browser("iPad" "iPod" "iPhone") {
+        display: block;
+    }*/
+
+    footer {
+        .content {
+            padding: $global-padding;
+            min-height: $footer-content-height;
+            background: $footer-background-color;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: $footer-title-color;
+        }
+
+        p {
+            color: $footer-text-color;
+        }
+
+        a {
+            color: $footer-link-color;
+
+            &:hover, &:active, &:focus {
+                color: $footer-link-color-hover;
+            }
+        }
+
+        .menu.simple {
+            li {
+                position: relative;
+                text-transform: uppercase;
+
+                &:after {
+                    content: $fa-var-circle;
+                    font-family: FontAwesome;
+                    color: $primary-color;
+                    font-size: 6px;
+                    position: absolute;
+                    top: 5px;
+                    right: -15px;
+                }
+
+                &:last-child {
+                    &:after {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

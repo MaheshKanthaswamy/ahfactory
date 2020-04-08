@@ -1,0 +1,29 @@
+﻿@model Guid
+
+@{
+    Layout = null;
+}
+
+<iframe id="ifm" src="@Url.Action("SeeEmail", "EmailLogs", new { area = "Admin", LogId = Model })" height="100%" width="100%" srolling="no" frameborder="0" border="0"></iframe>
+
+<script type="text/javascript">
+    var iframe = document.getElementById('ifm');
+
+    function resizeIframe() {
+        var documentHeight = document.documentElement.clientHeight;
+        var height = $('#ifm').contents().height();
+        var popup = $(".popup-email");
+        
+        popup.height(height + "px");
+        $('#ifm').height(height + "px");
+    }
+
+    // .onload doesn't work with IE8 and older.
+    if (iframe.attachEvent) {
+        iframe.attachEvent("onload", resizeIframe);
+    } else {
+        iframe.onload = resizeIframe;
+    }
+
+    window.onresize = resizeIframe;
+</script>

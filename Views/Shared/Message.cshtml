@@ -1,0 +1,19 @@
+﻿@model string
+
+<div class="row">
+    <div class="message-container small-12 medium-6 medium-push-3 large-4 large-push-4 columns">
+        <div class="card-1">
+            <p class="message">
+                @Html.Raw(Model)
+            </p>
+            @if (ViewBag.DisplayButton ?? true)
+            {
+                <p class="message-back">
+                    <a href="@ViewBag.UrlButton" class="button">
+                        @LangHelper.Translate(ViewBag.MessageKeyButton as string)
+                    </a>
+                </p>
+            }
+        </div>
+    </div>
+</div>

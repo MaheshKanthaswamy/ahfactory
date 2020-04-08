@@ -1,0 +1,34 @@
+﻿<div class="row">
+    <div class="columns small-12 medium-12 large-12">
+
+        @(Html.Kendo().Grid<RangeGridModel>()
+              .Name("RoleGridModel")
+              .ToolBar(e => e.Create())
+              .Editable(editable => editable.Mode(GridEditMode.InLine))
+              .Columns(columns =>
+              {
+                  columns.Bound(m => m.Name);
+                  columns.Command(commands =>
+                  {
+                      commands.Edit();
+                      commands.Destroy();
+                  }).Width(262).Title(LangHelper.Translate("actions"));
+              })
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Read("Read", "Range")
+                  .Update("CreateOrUpdate", "Range")
+                  .Create("CreateOrUpdate", "Range")
+                  .Destroy("Delete", "Range")
+                  .Model(model =>
+                  {
+                      model.Id(c => c.Id);
+                  })
+                  .Sort(o => o.Add(s => s.Name))
+              )
+              .Pageable(p => p.Refresh(true))
+              .Sortable(sorting => { sorting.SortMode(GridSortMode.SingleColumn); })
+              .Filterable()
+        )
+    </div>
+</div>

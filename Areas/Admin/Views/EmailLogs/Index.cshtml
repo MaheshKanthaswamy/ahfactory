@@ -1,0 +1,77 @@
+﻿@{
+    var id = Html.RandomID();
+    var allType = new[]
+    {
+        EventLogType.EMAIL_ASK_REGISTER,
+        EventLogType.EMAIL_CONTACT,
+        EventLogType.EMAIL_PASSWORD_FORGOT,
+        EventLogType.EMAIL_VALIDATE_REGISTER,
+        EventLogType.EMAIL_ACCOUNT_VALIDITY,
+        EventLogType.EMAIL_NEWSLETTER
+    };
+}
+
+<div class="row emails-logs">
+    <div class="small-12 column">
+	<a class="edit-button button light bordered" href="@Url.Action("Newsletter", "Job", new {area = "Job"})"><i class="fa fa-edit"></i>&nbsp;&nbsp;@LangHelper.Translate("send.newsletter")</a>
+        <ul class="tabs" data-tabs id="emails-logs-tabs_@(id)">
+            @foreach (var type in allType)
+            {
+                var selected = type == EventLogType.EMAIL_ASK_REGISTER;
+                <li class="tabs-title @(selected ? "is-active" : "")"><a href="#panel_@type">@Html.Lang("email.log." + type.ToString().ToLower().Replace('_', '.'))</a></li>
+            }
+        </ul>
+
+        <div class="tabs-content" data-tabs-content="emails-logs-tabs_@(id)">
+            @foreach (var type in allType)
+            {
+                var selected = type == EventLogType.EMAIL_ASK_REGISTER;
+
+                <div class="tabs-panel  @(selected ? "is-active" : "")" id="panel_@type">
+                    @(Html.Kendo().Grid<EmailLogModel>()
+                        .Name("grid_" + type + "_" + id)
+                        .HtmlAttributes(new { @class = "logs-table" })
+                        .Columns(columns =>
+                        {
+                            columns.Bound(m => m.Day).Format("{0:dd/MM/yyyy}");
+                            columns.Bound(m => m.Hour).Format("{0:HH:mm}").Groupable(false);
+                            columns.Bound(m => m.UserId).ClientTemplate("<a href='" + Url.Action("Infos", "User", new { area = "Admin" }) + "/#:UserId#'>#:UserName#</a>").ClientGroupHeaderTemplate("#= getUsernameById(" + "grid_" + id + ",value) #");
+                            columns.Bound(m => m.From);
+                            columns.Bound(m => m.To);
+                            columns.Bound(m => m.Cc);
+                            columns.Bound(m => m.Bcc);
+
+                            if (type == EventLogType.EMAIL_VALIDATE_REGISTER)
+                            {
+                                //columns.Bound(m => m.AdminId);
+                                columns.Bound(m => m.AdminLogin);
+                            }
+                            columns.Bound(x => x).Title("").Filterable(false).Sortable(false).Width(50).HtmlAttributes(new { @class = "text-right" }).ClientTemplate(
+                                "<a title=\"" + Html.Lang("see.email") + "\" class=\"button small-mar-right light bordered no-mar-bottom\" data-reveal-popup data-reveal-popup-classes=\"popup-email\" href=\"" + Url.Action("PopupEmail", "EmailLogs", new { area = "Admin" }) + "?LogId=#: Id #\"><i class=\"fa fa-eye\" aria-hidden=\"true\"></i></a>"
+                            );
+                        })
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(r => r.Action("ReadLogs", "EmailLogs", new { area = "", Type = type })))
+                        .Filterable()
+                        .Sortable()
+                        .Groupable()
+                        .Pageable(p => p.Refresh(true))
+                        .Events(e => e.DataBound("databound_" + id))
+                    )
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function databound_@(id)(e) {
+        var grid = e.sender;
+        grid.tbody.find("tr.k-grouping-row").each(function (index) {
+            grid.collapseGroup(this);
+        });
+    }
+</script>

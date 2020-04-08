@@ -1,0 +1,114 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.facebook-button {
+    $background: #3C5A95;
+    $background-hover: darken($background, 10%);
+    $color: #fff;
+    @include button(false, $background, $background-hover, $color, solid);
+    text-transform: uppercase;
+    border-radius: $button-border-radius;
+    overflow: hidden;
+    font-size: 0.85rem;
+
+    &.expanded {
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+button, .button {
+    &:not(.menu-icon) {
+        @include button($button-expand, $button-background-color, $button-background-color-active, $button-text-color, $button-style);
+        text-transform: uppercase;
+        border-radius: $button-border-radius;
+        overflow: hidden;
+        font-size: 0.85rem;
+
+        &.light {
+            @include button($button-expand, $button-background-color, $button-background-color-active, $button-text-color, hollow);
+            border: none;
+            font-size: 0.85rem;
+            border-radius: $button-border-radius;
+            overflow: hidden;
+        }
+
+        &.bordered {
+            border: 1px solid $button-background-color;
+        }
+
+        &.alert {
+            @include button($button-expand, $alert-color, darken($alert-color, 5%), #fff, $button-style);
+            text-transform: uppercase;
+            border-radius: $button-border-radius;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+
+        &.loading {
+            border-radius: 0;
+            text-indent: -9999px;
+            line-height: 0;
+            padding-top: $global-padding/3;
+            padding-bottom: $global-padding/3;
+            background: none;
+            font-size: 0;
+            opacity: 1;
+            cursor: default;
+
+            &:after {
+                text-indent: 0;
+                display: block;
+                line-height: initial;
+                -webkit-animation: fa-spin 2s infinite linear;
+                -moz-animation: fa-spin 2s infinite linear;
+                -o-animation: fa-spin 2s infinite linear;
+                animation: fa-spin 2s infinite linear;
+                content: $loading-fa-icon;
+                z-index: 1;
+                font-size: 30px;
+                font-family: FontAwesome;
+                color: $primary-color;
+            }
+        }
+    }
+}
+
+td.templateCell div {
+    border: none;
+    background-color: transparent;
+}
+
+td.templateCell span.conserve {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-right: 0px;
+    min-width: 64px;
+    &:hover {
+        color: lighten(lawngreen, 15%) !important;
+    }
+}
+
+td.templateCell span.delete {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-left: 0px;
+    min-width: 64px;
+    &:hover {
+        color: lighten(red, 15%) !important;
+    }
+}
+
+
+td.templateCell span.conserve.k-state-active {
+    background-color: lawngreen;
+    color: white;
+}
+
+td.templateCell span.delete.k-state-active {
+    background-color: lighten(red, 15%);
+    color: white;
+}
+

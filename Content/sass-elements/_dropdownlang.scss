@@ -1,0 +1,123 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.dropdown-lang {
+    ul {
+        .no-loaded & {
+            display: none; 
+        }
+
+        min-width: 145px;
+
+        table {
+            border: none;
+            margin: 0;
+
+            tbody {
+                border: none;
+            }
+        }
+
+        .navbar-brand {
+            padding: 0;
+        }
+    }
+
+    .lang-flag-container {
+        width: $langs-dropdown-size;
+        height: $langs-dropdown-size;
+        overflow: hidden;
+        display: inline-block;
+        text-align: center;
+        position: relative;
+
+        [class^=flag-] {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -moz-transform: translateY(-50%) translateX(-50%);
+            -ms-transform: translateY(-50%) translateX(-50%);
+            -o-transform: translateY(-50%) translateX(-50%);
+            -webkit-transform: translateY(-50%) translateX(-50%);
+            transform: translateY(-50%) translateX(-50%);
+            border-radius: $langs-dropdown-size/2;
+        }
+    }
+
+    .navbar-brand {
+        padding: 0.82rem;
+        padding-right: $global-padding;
+        color: $topbar-text-color;
+        font-weight: $topbar-text-weight;
+
+        tbody {
+            background-color: $topbar-background-color;
+        }
+
+        &:hover, &:active {
+            color: $topbar-text-color-active;
+            font-weight: $topbar-text-weight-active;
+
+            tbody {
+                background-color: $topbar-background-color-active;
+            }
+        }
+    }
+
+
+    @include breakpoint(small only) {
+        display: inline-block;
+        position: absolute;
+        bottom: 0;
+        right: $global-padding;
+
+        .navbar-brand {
+            padding: $global-padding/2;
+            color: $topbar-text-color;
+            text-transform: uppercase;
+
+            &:after {
+                border-color: $topbar-text-color transparent transparent !important;
+            }
+        }
+    }
+}
+
+@each $lang in $langs {
+    $position: index($langs, $lang) - 1;
+
+    .flag-#{$lang} {
+        display: inline-block;
+        width: $langs-flags-width/length($langs);
+        height: $langs-flags-height;
+        margin: auto;
+
+        $pos: -($langs-flags-width/length($langs) * $position) 0px;
+
+        background: url("#{$langs-flags-sprite-image}") $pos;
+        background-size: $langs-flags-width $langs-flags-height;
+
+        @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 240dpi) {
+            background: url("#{$langs-flags-sprite-image-mobile}") $pos;
+            background-size: $langs-flags-width $langs-flags-height;
+        }
+
+        &.flag-small {
+            $langs-flags-width: $langs-dropdown-size*length($langs);
+            $langs-flags-height: $langs-dropdown-size;
+
+            width: $langs-flags-width/length($langs);
+            height: $langs-flags-height;
+
+            $pos: -($langs-flags-width/length($langs) * $position) 0px;
+
+            background: url("#{$langs-flags-sprite-image}") $pos;
+            background-size: $langs-flags-width $langs-flags-height;
+
+            @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 240dpi) {
+                background: url("#{$langs-flags-sprite-image-mobile}") $pos;
+                background-size: $langs-flags-width $langs-flags-height;
+            }
+        }
+    }
+}

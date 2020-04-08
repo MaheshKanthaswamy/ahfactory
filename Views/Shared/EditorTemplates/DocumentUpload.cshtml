@@ -1,0 +1,20 @@
+@model Guid?
+
+@{
+    var name = ViewData.TemplateInfo.HtmlFieldPrefix;
+	var fn = Html.RandomID();
+}
+
+<input type="hidden" name="@name"/>
+
+<script type="text/javascript">
+    function sucess_@(fn)(e) {
+        $('[name="@(name)"]').val(e.response).change();
+    }
+</script>
+
+@(Html.Kendo().Upload().Name("file").HtmlAttributes(new { id = Html.RandomID() })
+      .Multiple(false)
+      .Async(a => a.Save("SaveFile", "Api", new {area = ""}))
+      .Events(e => e.Success("sucess_" + fn))
+      )

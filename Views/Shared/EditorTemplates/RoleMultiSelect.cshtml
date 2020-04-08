@@ -1,0 +1,19 @@
+﻿
+@model IEnumerable<Guid>
+
+@(Html.Kendo()
+        .MultiSelect()
+        .Name(ViewData.TemplateInfo.HtmlFieldPrefix)
+        .HtmlAttributes(new { id = Html.RandomID() })
+        .DataSource(source =>
+        {
+            source.Read(read =>
+            {
+                read.Action("GetRoles", "Api", new { area = "" });
+            })
+            .ServerFiltering(true);
+        })
+        .DataTextField("Name")
+        .DataValueField("Id")
+      )
+

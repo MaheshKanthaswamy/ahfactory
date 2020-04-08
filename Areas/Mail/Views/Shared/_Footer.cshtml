@@ -1,0 +1,65 @@
+﻿@{
+    var deliveryInfo = (string)ViewBag.DeliveryInfo;
+    var siteurl = (string)ViewBag.SiteURL;
+}
+
+
+<!--[if mso]>
+<table border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;"><tr><td>
+<![endif]-->
+<div style="margin:0 auto;max-width:600px;">
+    <table cellpadding="0" cellspacing="0" style="font-size:0;width:100%;" align="center" border="0">
+        <tbody>
+            <tr>
+                <td style="text-align:center;vertical-align:top;font-size:0;padding:20px 0;padding-bottom:0px;padding-top:0px;">
+                    <!--[if mso]>
+                    <table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:middle;width:600px;">
+                    <![endif]-->
+                    <div aria-labelledby="mj-column-per-100" class="mj-column-per-100" style="vertical-align:middle;display:inline-block;font-size:13px;text-align:left;width:100%;">
+                        <table cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0">
+                            <tbody>
+                                @*<div aria-labelledby="mj-column-per-100" class="mj-column-per-100" data-vertical-align="top" style="vertical-align:top;display:inline-block;font-size:13px;text-align:left;width:100%;">
+                                        <table cellpadding="0" cellspacing="0" style="vertical-align:top;" width="100%" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="center">
+                                                        <div style="cursor:auto;color:#000000;font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;">
+                                                            <p>
+                                                                Any questions, comments, concerns?
+                                                                <br>
+                                                                Contact our support staff at <a href="@siteurl" style="text-decoration: none; color: inherit;"><span style="font-weight: bold;">support@amario.com</span></a>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>*@
+                                <tr>
+                                    <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="center">
+                                        <div style="cursor:auto;color:#000000;font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:11px;line-height:22px;">
+                                            <p style="font-size:11px">@Html.Raw(deliveryInfo)</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @*<tr>
+                                        <td style="word-break:break-word;font-size:0;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="center">
+                                            <div style="cursor:auto;color:#000000;font-family:Roboto, Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:11px;line-height:22px;">
+                                                <p style="font-size:11px">[[POSTAL_ADDRESS]]</p>
+                                            </div>
+                                        </td>
+                                    </tr>*@
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--[if mso]>
+                    </td></tr></table>
+                    <![endif]-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--[if mso]>
+</td></tr></table>
+<![endif]-->

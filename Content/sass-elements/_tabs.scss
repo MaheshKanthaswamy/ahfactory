@@ -1,0 +1,81 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.global-tabs-panel {
+    position: relative;
+
+    &:not(.main-global-tabs) {
+        .global-tabs-panel-content {
+            &.fixed-bottom {
+                @include breakpoint(medium) {
+                    position: fixed;
+                    bottom: 0;
+                }
+            }
+
+            &.fixed-top {
+                @include breakpoint(medium) {
+                    position: fixed;
+                    top: $global-padding;
+                }
+            }
+
+            &.absolute-bottom {
+                  @include breakpoint(medium) {
+                    position: absolute;
+                    bottom: $global-padding;
+                }
+            }
+        }
+    }
+}
+
+.tabs-parent {
+    display: table;
+    width: 100%;
+
+    .tabs {
+        border: none;
+        display: table-row;
+
+        & > .tabs-title {
+            background-color: $tab-background-color;
+            color: $tab-text-color;
+            border-bottom: 1px solid darken($tab-background-color, 10%);
+            display: table-cell;
+            vertical-align: middle;
+            float: none;
+
+            a {
+                background-color: $tab-background-color;
+                color: $tab-text-color;
+                @include flex-custom();
+                @include flex-align-center();
+
+                .tabs-title-text {
+                    @include flex-1-1-0();
+                    text-align: center;
+                }
+            }
+
+            &.is-active, &:hover, &:focus, &:active {
+                background-color: $tab-background-color-active;
+                color: $tab-text-color-active;
+                border-bottom: 1px solid darken($tab-background-color-active, 10%);
+
+                a {
+                    background-color: $tab-background-color-active;
+                    color: $tab-text-color-active;
+                }
+            }
+        }
+    }
+}
+
+.global-tabs {
+    & > .tabs-panel {
+        @include breakpoint(medium) {
+            display: block;
+        }
+    }
+}

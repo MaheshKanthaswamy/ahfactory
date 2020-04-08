@@ -1,0 +1,46 @@
+﻿@model SocietyGridModel
+
+@{
+    ViewBag.Title = Html.Lang("title.administration.society.management");
+}
+
+<div class="row">
+    <div class="columns small-12 medium-12 large-12">
+
+        @(Html.Kendo().Grid<SocietyGridModel>()
+              .Name("SocietyGridModel")
+              .ToolBar(e => e.Create())
+              .Editable(editable => editable.Mode(GridEditMode.InLine))
+              .Columns(columns =>
+              {
+                  columns.Bound(m => m.SocietyName).ClientTemplate(@Html.ActionLink("#=SocietyName#", "SocietyInfos", new { Id = "#=Id#" }).ToHtmlString());
+                  columns.Bound(m => m.DateCreation).Format("{0:dd/MM/yyyy}");
+                  columns.Bound(m => m.LastActivityDate).Format("{0:dd/MM/yyyy}");
+                  columns.Bound(m => m.ClientCount);
+                  columns.Command(commands =>
+                  {
+                      commands.Edit();
+                      commands.Destroy();
+                  }).Width(262).Title(LangHelper.Translate("actions"));
+              })
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Read("Read", "Society")
+                  .Update("CreateOrUpdate", "Society")
+                  .Create("CreateOrUpdate", "Society")
+                  .Destroy("Delete", "Society")
+                  .Model(model =>
+                  {
+                      model.Id(c => c.Id);
+                      model.Field(c => c.DateCreation).Editable(false);
+                      model.Field(c => c.ClientCount).Editable(false);
+                      model.Field(c => c.LastActivityDate).Editable(false);
+                  })
+                  .Sort(o => o.Add(s => s.SocietyName))
+              )
+              .Pageable(p => p.Refresh(true))
+              .Sortable(sorting => { sorting.SortMode(GridSortMode.SingleColumn); })
+              .Filterable()
+        )
+    </div>
+</div>

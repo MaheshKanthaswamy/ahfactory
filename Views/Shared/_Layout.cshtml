@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.ToString()" class="no-js no-loaded">
+<head lang="@System.Globalization.CultureInfo.CurrentUICulture.ToString()" prefix="og:http://ogp.me/ns#">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="@Url.Content("~/Content/favicon/apple-touch-icon-57x57.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@Url.Content("~/Content/favicon/apple-touch-icon-114x114.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@Url.Content("~/Content/favicon/apple-touch-icon-72x72.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@Url.Content("~/Content/favicon/apple-touch-icon-144x144.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="@Url.Content("~/Content/favicon/apple-touch-icon-60x60.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="@Url.Content("~/Content/favicon/apple-touch-icon-120x120.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="@Url.Content("~/Content/favicon/apple-touch-icon-76x76.png")" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="@Url.Content("~/Content/favicon/apple-touch-icon-152x152.png")" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/Content/favicon/favicon-196x196.png")" sizes="196x196" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/Content/favicon/favicon-96x96.png")" sizes="96x96" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/Content/favicon/favicon-32x32.png")" sizes="32x32" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/Content/favicon/favicon-16x16.png")" sizes="16x16" />
+    <link rel="icon" type="image/png" href="@Url.Content("~/Content/favicon/favicon-128.png")" sizes="128x128" />
+    <meta name="application-name" content="&nbsp;" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="@Url.Content("~/Content/favicon/mstile-144x144.png")" />
+    <meta name="msapplication-square70x70logo" content="@Url.Content("~/Content/favicon/mstile-70x70.png")" />
+    <meta name="msapplication-square150x150logo" content="@Url.Content("~/Content/favicon/mstile-150x150.png")" />
+    <meta name="msapplication-wide310x150logo" content="@Url.Content("~/Content/favicon/mstile-310x150.png")" />
+    <meta name="msapplication-square310x310logo" content="@Url.Content("~/Content/favicon/mstile-310x310.png")" />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic,900,900italic,300italic,300" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/font-awesome/font-awesome.min.css")" rel="stylesheet" type="text/css">
+
+    @if (Request.IsLocal)
+    {
+        <link href="@Url.Content("~/Content/app.bundle.css" + "?v=" + @AppConstants.AppVersion)" rel="stylesheet" type="text/css">
+    }
+    else
+    {
+        <link href="@Url.Content("~/Content/app.bundle.min.css" + "?v=" + @AppConstants.AppVersion)" rel="stylesheet" type="text/css">
+    }
+
+    <title>
+        @LangHelper.Translate("header.title")
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+        {
+            @: - @ViewBag.Title
+		}
+    </title>
+
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/useragent.js" + "?v=" + @AppConstants.AppVersion)" async></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-2.2.4.js" + "?v=" + @AppConstants.AppVersion)"></script>
+
+    @if (Request.IsLocal)
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/kendo.bundle.js" + "?v=" + @AppConstants.AppVersion)"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/beforeBody.bundle.js" + "?v=" + @AppConstants.AppVersion)"></script>
+    }
+    else
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/kendo.bundle.min.js" + "?v=" + @AppConstants.AppVersion)"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/beforeBody.bundle.min.js" + "?v=" + @AppConstants.AppVersion)"></script>
+    }
+</head>
+<body data-controller="@Html.ControllerName()" data-action="@Html.ActionName()" data-lang="@CultureInfo.CurrentUICulture.ToString()" id="body" data-toggler=".fix-scroll-menu">
+    <noscript>
+        <div class="noscript-content">
+            <div class="row">
+                <div class="small-12 column text-center">
+                    <div class="noscript-content-icon">
+                        <i class="fa fa-warning"></i>
+                    </div>
+                    <div class="noscript-content-text">@LangHelper.Translate("noscript.text")</div>
+                </div>
+            </div>
+        </div>
+    </noscript>
+
+    <div class="nocookie-content hide">
+        <div class="row">
+            <div class="small-12 column text-center">
+                <div class="nocookie-content-icon">
+                    <i class="fa fa-warning"></i>
+                </div>
+                <div class="nocookie-content-text">@LangHelper.Translate("nocookie.text")</div>
+            </div>
+        </div>
+    </div>
+
+    @{Html.RenderPartial("_Header");}
+    <main class="body-content">
+        @RenderBody()
+    </main>
+
+    @if (Request.IsLocal)
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/foundation.bundle.js" + "?v=" + @AppConstants.AppVersion)" data-keephere></script>
+    }
+    else
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/foundation.bundle.min.js" + "?v=" + @AppConstants.AppVersion)" data-keephere></script>
+    }
+
+    <script type="text/javascript" data-keephere>
+        $(document).foundation();
+        FastClick.attach(document.body);
+        kendo.culture('@CultureInfo.CurrentCulture.ToString()');
+
+        $(document).on("touchend", "input", function () {
+            var node = $(this)[0];
+            if (document.activeElement === node) {
+                window.focus();
+                setTimeout(function () {
+                    node.focus();
+                }, 0);
+            }
+        });
+    </script>
+
+    @if (Request.IsLocal)
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/afterBody.bundle.js" + "?v=" + @AppConstants.AppVersion)"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/coffee.bundle.js" + "?v=" + @AppConstants.AppVersion)"></script>
+    }
+    else
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/afterBody.bundle.min.js" + "?v=" + @AppConstants.AppVersion)"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/coffee.bundle.min.js" + "?v=" + @AppConstants.AppVersion)"></script>
+    }
+
+    <script type="text/javascript">
+        $.cookie("canCook", true);
+        if (typeof $.cookie("canCook") === 'undefined') {
+            $(".nocookie-content").removeClass('hide');
+        }
+    </script>
+
+    <script type="text/javascript">
+        $("html").removeClass("no-loaded");
+    </script>
+
+    @Html.Partial("_Notif")
+</body>
+</html>

@@ -1,0 +1,28 @@
+﻿@model ContactModel
+
+@{
+    var id = Html.RandomID();
+}
+
+
+@using (Html.BeginForm("Index", "Contact", null, FormMethod.Post, new { id }))
+{
+    <div class="row">
+        <div class="small-12 column">
+            <p>@Html.Lang("contact.explain.text.part.1")<br /><i class="fa fa-warning"></i> <b>@Html.Lang("contact.explain.text.part.2")</b></p>
+
+            @Html.FTELEditorFor(m => m.Object)
+            @Html.FTELEditorFor(m => m.Question)
+
+            <div class="text-right">
+                <button class="button mar-bottom" type="submit">@Html.Lang("send")</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="small-12 column">
+        <div class="small-text">@Html.Lang("contact.explain.text.bottom")</div>
+    </div>
+</div>

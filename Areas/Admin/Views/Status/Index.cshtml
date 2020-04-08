@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = Html.Lang("title.administration.status");
+}
+
+@{Html.Kendo().Grid<StatusGridModel>()
+          .Name("StatusGrid")
+          .ToolBar(e => e.Create().HtmlAttributes(new { @class = "" }))
+          .HtmlAttributes(new { @class = "md-table" })
+          .Editable(editable => editable.Mode(GridEditMode.InLine))
+          .Columns(columns =>
+          {
+              columns.Bound(o => o.Code).Filterable(false).Sortable(false).Width(150);
+              columns.Bound(o => o.Name).Filterable(false).Sortable(false);
+              columns.Command(commands =>
+              {
+                  commands.Edit().HtmlAttributes(new { @class = "" });
+                  commands.Destroy().HtmlAttributes(new { @class = "" });
+              })
+              .Width(400)
+              .HtmlAttributes(new { @class = "text-right" });
+          })
+          .Groupable(grouping => grouping.Enabled(false))
+          .Sortable(sorting => { sorting.SortMode(GridSortMode.MultipleColumn); })
+          .Filterable()
+          .Events(e => e.Edit("edit"))
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Sort(s => s.Add(m => m.Code))
+              .Model(model => model.Id(m => m.Name))
+              .Read(read => read.Action("Read", "Status"))
+              .Create(create => create.Action("CreateOrUpdate", "Status"))
+              .Update(update => update.Action("CreateOrUpdate", "Status"))
+              .Destroy(destroy => destroy.Action("Delete", "Status")))
+              .Render();
+}
+
+<script type="text/javascript">
+    var isCreating;
+  
+    function edit(e) {
+        if (isCreating) {
+            $('input[name *= "Code"]').attr("disabled", false);
+            isCreating = false;
+        }
+        else
+            $('input[name *= "Code"]').attr("disabled", true);
+    }
+
+    $(document).ready(function () {
+        isCreating = false;
+
+        $(".k-grid-add").on("click", function (e) {
+            isCreating = true;
+        });
+    })
+</script>

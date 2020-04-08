@@ -1,0 +1,125 @@
+﻿@import "font-awesome/variables";
+
+$bayer-green: #94C56A;
+$bayer-grey: #706F6F;
+
+$primary-color: $bayer-green;
+$secondary-color: $bayer-green;
+$success-color: #3adb76;
+$warning-color: #ffae00;
+$alert-color: #ec5840;
+
+$header-content-height: 124px; //height in px|auto
+$header-logo-left-height: 50px;
+$header-logo-center-height: 100px;
+$header-logo-right-height: 100px;
+$header-content-small-height: 80px; //height in px|auto
+$header-logo-left-small-height: 60px;
+$header-logo-center-small-height: 60px;
+$header-logo-right-small-height: 60px;
+$header-background-color: #fff;
+$header-background-image: "";
+$header-background-attachment: "scroll"; //scroll|fixed|local|initial|inherit;
+$header-background-repeat: "no-repeat"; //repeat|repeat-x|repeat-y|no-repeat|initial|inherit;
+$header-background-size: "cover"; //auto|length in px|cover|contain|initial|inherit;
+$header-background-position: 50% 0;
+
+$header-menu-link-color: #888;
+$header-menu-link-color-active: #333;
+
+
+$header-content-height-logon: 100px; //height in px|auto
+$header-logo-left-height-logon: 50px;
+$header-logo-center-height-logon: 100px;
+$header-logo-right-height-logon: 100px;
+$header-content-small-height-logon: 80px; //height in px|auto
+$header-logo-left-small-height-logon: 60px;
+$header-logo-center-small-height-logon: 60px;
+$header-logo-right-small-height-logon: 60px;
+
+
+$user-control-background-color: #EDEDED;
+$user-control-background-color-active: darken($user-control-background-color, 10%);
+$user-control-text-color: #333;
+
+$subheader-height: 60px;
+$subheader-background-color: $bayer-grey;
+
+$main-background-color: #fff;
+$main-background-image: "";
+$main-background-attachment: "fixed"; //scroll|fixed|local|initial|inherit;
+$main-background-repeat: "no-repeat"; //repeat|repeat-x|repeat-y|no-repeat|initial|inherit;
+$main-background-size: "cover"; //auto|length in px|cover|contain|initial|inherit;
+$main-background-position: 50% 0;
+
+/* Le tableau ci dessous doit imperativement suivre le meme ordre que les drapeaux dans le sprite */
+$teams: "alb" "ger" "eng" "aus" "bel" "cro" "spa" "fra" "hun" "norirl" "ice" "ita" "wal" "pol" "por" "repirl" "cze" "rom" "rus" "slo" "swe" "swi" "tur" "ukr";
+$teams-flags-width: 2057px;
+$teams-flags-height: 50px;
+$teams-flags-sprite-image: "http://media.fteledition.fr/Uploads/b75ac47c-7578-44bc-9568-f73752974949/image.png?height=50";
+$teams-flags-sprite-image-mobile: "http://media.fteledition.fr/Uploads/b75ac47c-7578-44bc-9568-f73752974949/image.png?height=100";
+
+/* Le tableau ci dessous doit imperativement suivre le meme ordre que les drapeaux dans le sprite */
+$langs: "pt-pt" "en-gb" "es-es" "fr-fr" "it-it" "de-de";
+$langs-flags-width: 514px;
+$langs-flags-height: 50px;
+$langs-flags-sprite-image: "http://media.fteledition.fr/Uploads/124b1927-61e2-416c-a732-305507156e66/image.png?height=50";
+$langs-flags-sprite-image-mobile: "http://media.fteledition.fr/Uploads/124b1927-61e2-416c-a732-305507156e66/image.png?height=100";
+$langs-dropdown-size: 30px;
+
+$topbar-background-color: $bayer-green;
+$topbar-text-color: #fff;
+$topbar-text-weight: 400;
+$topbar-background-color-active: darken($topbar-background-color, 10%);
+$topbar-text-color-active: #fff;
+$topbar-text-weight-active: 400;
+$topbar-text-size: 0.8rem;
+
+$titlebar-background-color: $topbar-background-color;
+$titlebar-text-color: $topbar-text-color;
+
+$footer-background-color: $header-background-color;
+$footer-title-color: #000;
+$footer-text-color: lighten($footer-title-color, 10%);
+$footer-link-color: $primary-color;
+$footer-link-color-hover: darken($primary-color, 10%);
+$footer-content-height: 50px;
+//$footer-copyright-height: 50px;
+
+$card-title-background-color: $secondary-color;
+$card-title-text-color: #fff;
+$card-content-background-color: #fff;
+$card-content-text-color: #666;
+$card-border-radius: 1px;
+
+$tab-background-color: #fff;
+$tab-text-color: #333;
+$tab-background-color-active: $primary-color;
+$tab-text-color-active: #fff;
+
+$upload-photo-size: 120px;
+
+$button-border-radius: 0px;
+$button-expand: false;
+$button-background-color: $primary-color;
+$button-background-color-active: darken($button-background-color,5%);
+$button-text-color: #fff;
+$button-style: solid;
+
+$loading-fa-icon: $fa-var-circle-o-notch;
+
+$notifmessage-background-color: #333;
+$notifmessage-text-color: #fff;
+$notifmessage-border-color: #000;
+$notifmessage-close-button-color: #aaa;
+$notifmessage-close-button-color-active: darken($notifmessage-close-button-color, 10%);
+$notifmessage-progress-color: $primary-color;
+$notifmessage-progress-height: 4px;
+$notifmessage-animation-time: 4000ms;
+$notifmessage-animation-time-fadeout: 200ms;
+
+$document-border-color: #dadada;
+$document-type-bg-color: #fff;
+$document-type-text-color: #333;
+$document-name-color: #000;
+

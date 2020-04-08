@@ -1,0 +1,47 @@
+﻿@model UserInfoModel_ReadOnly
+
+<div class="row">
+    <div class="small-12 medium-6 large-5 medium-centered columns">
+        <div class="logon-form">
+            <fieldset>
+                <div class="row">
+                    <div class="small-12 column">
+                        <h5 class="no-mar-top">
+                            @Model.Firstname @Model.Lastname
+                        </h5>
+                    </div>
+
+                    <div class="small-12 medium-4 column">
+                        @Html.LabelFor(m => m.Email)
+                    </div>
+                    <div class="small-12 medium-8 column ftel-editor-field">
+                        @Model.Email &nbsp;
+                    </div>
+
+                    <div class="small-12 medium-4 column">
+                        @Html.LabelFor(m => m.Login)
+                    </div>
+                    <div class="small-12 medium-8 column ftel-editor-field">
+                        @Model.Login &nbsp;
+                    </div>
+
+                    <div class="small-12 medium-4 column">
+                        @Html.LabelFor(m => m.Roles)
+                    </div>
+                    <div class="small-12 medium-8 column ftel-editor-field">
+                        @if (Model.Roles.Any())
+                        {
+                            <div>
+                                @string.Join(", ", Model.Roles.Select(r => r.Name))
+                            </div>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>

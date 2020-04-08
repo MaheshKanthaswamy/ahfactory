@@ -1,0 +1,57 @@
+﻿@model SocietyGridModel
+
+@{
+    var id = Html.RandomID();
+    var isadmin = RoleHelper.IsAdminData || RoleHelper.IsAdminTech;
+}
+
+<div class="row edit-document">
+    <div class="small-12 @(isadmin ? "medium-4" : "medium-6 large-5 medium-centered") column">
+        <h3 class="page-title">
+            <i class="fa fa-university"></i> @Model.SocietyName
+        </h3>
+
+        @using (Html.BeginForm("SocietyInfos", "Society", new { }, FormMethod.Post, new { Id = Model.Id }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.FTELEditorFor(m => m.SocietyName)
+
+            <div class="row mar-bottom">
+                <div class="small-12 medium-6 column">
+                    <label>@LangHelper.Translate("date.creation")</label>
+                    <div>
+                        @Model.DateCreation
+                    </div>
+                </div>
+
+                <div class="small-12 medium-6 column">
+                    <label>@LangHelper.Translate("last.activity.date")</label>
+                    <div>
+                        @Model.LastActivityDate
+                    </div>
+                </div>
+            </div>
+
+            <label>@LangHelper.Translate("client.count")</label>
+            <div>
+                @Model.ClientCount
+            </div>
+
+            <div class="text-right">
+                <button type="submit" name="edit" id="edit" class="button">@LangHelper.Translate("update")</button>
+            </div>
+        }
+    </div>
+
+    @if (RoleHelper.IsAdminData || RoleHelper.IsAdminTech)
+    {
+        <div class="small-12 medium-8 column">
+            <div class="mar-bottom">
+                @Html.WebPart("Users", "Society", "Admin", Model.Id)
+            </div>
+            <div>
+                @Html.WebPart("Logs", "Society", "Admin", Model.Id)
+            </div>
+        </div>
+    }
+</div>

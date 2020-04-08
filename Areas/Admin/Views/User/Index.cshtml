@@ -1,0 +1,33 @@
+﻿@model UserGridModel
+
+@{
+    ViewBag.Title = Html.Lang("title.administration.clients");
+}
+
+<div class="row">
+    <div class="column small-12">
+        @(Html.Kendo().TabStrip()
+            .Name("ClientTab")
+            .Items(i =>
+            {
+                i.Add().Text(Html.Lang("allowed")).Content(Html.Partial("_ClientsAllowed", Model).ToHtmlString()).Selected(true);
+                i.Add().Text(Html.Lang("inprogress")).Content(Html.Partial("_ClientsInprogress", Model).ToHtmlString());
+                i.Add().Text(Html.Lang("refused")).Content(Html.Partial("_ClientsRefused", Model).ToHtmlString());
+            })
+        )
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="columns large-12">
+        @{Html.RenderPartial("_Clients", Model);}
+    </div>
+</div>*@
+
+<script type="text/javascript">
+    function onSelect(e) {
+        var grid = $("#UsersRoles").find(".k-content.k-state-active .k-grid");
+        if(grid)
+            grid.data('kendoGrid').dataSource.read();
+    }
+</script>

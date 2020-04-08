@@ -1,0 +1,44 @@
+﻿@import "sass-elements/fonts";
+
+/*@import "font-awesome/font-awesome";*/
+@import "foundation/scss/settings/settings";
+@import "foundation/assets/foundation";
+@import "motion-ui/motion-ui";
+@import "slick/slick";
+@import "slick/slick-theme";
+
+@include motion-ui-transitions;
+
+@import "variables";
+
+/* Fonctions et mixins */
+@import "sass-elements/mixin";
+
+/* Global */
+@import "sass-elements/util";
+@import "sass-elements/global";
+@import "sass-elements/card";
+@import "sass-elements/forms";
+@import "sass-elements/header";
+@import "sass-elements/navbar";
+//@import "sass-elements/footer";
+@import "sass-elements/buttons";
+@import "sass-elements/tabs";
+@import "sass-elements/pictureupload";
+@import "sass-elements/iframe";
+@import "sass-elements/reveal";
+@import "sass-elements/notif-message";
+
+/* Spécifique */
+@import "sass-elements/login";
+@import "sass-elements/noscript";
+@import "sass-elements/nocookie";
+
+@import "sass-elements/admin-page-select";
+@import "sass-elements/documents-page";
+@import "sass-elements/document-details";
+@import "sass-elements/document-edit";
+
+@import "sass-elements/logs-table";
+@import "sass-elements/user-details";
+@import "sass-elements/emails-logs";

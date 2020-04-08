@@ -1,0 +1,55 @@
+﻿@model SearchDocumentModel
+
+@{
+    var id = Html.RandomID();
+}
+
+<div class="documents-list">
+    @(Html.Kendo().ListView<DocumentModel>()
+        .Name("DocumentsList_" + id)
+        .HtmlAttributes(new { @class = "documents-carousel" })
+        .TagName("div")
+        .ClientTemplateId("DocumentTemplate_" + id)
+        .DataSource(dataSource =>
+        {
+            dataSource.Read(read => read.Action("Read_LastUpdatedDocuments", "Document").Data("getModel_" + id));
+        })
+        .Events(e => e.DataBound("databound_" + id))
+    )
+</div>
+
+<script type="text/x-kendo-tmpl" id="DocumentTemplate_@(id)">
+    <div class="documents-carousel-element">
+        <a class="document" href="@Url.Action("Details", "Document")/#: Id #?FromType=@Model.DocumentType" title="#: Name #">
+            <img width="300" height="300" src="#: ThumbnailUrl #?width=300&height=300" />
+        </a>
+        <div class="document-name mar-top mar-bottom">#: Name #</div>
+
+        # if(Comment) { #
+            <div class="document-comment">#: Comment #</div>
+        # } #
+    </div>
+</script>
+
+<script type="text/javascript">
+    function databound_@(id)(e) {
+        if (this.dataSource.data().length == 0) {
+            $("#DocumentsList_@(id)").append("<h5 class='no-document text-center no-mar-bottom'>@LangHelper.Translate("no.document")</h5>");
+        } else {
+            $("#DocumentsList_@(id)").slick({
+                infinite: true,
+                autoplay: true,
+                slidesToShow: 1,
+                slidesToScroll: 1
+            });
+        }
+    }
+
+    function getModel_@(id)() {
+        return {
+            Text : "@Model.Text",
+            RangeId : "@Model.RangeId",
+            DocumentType : "@Model.DocumentType"
+        }
+    }
+</script>

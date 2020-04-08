@@ -1,0 +1,58 @@
+﻿@model EmailTemplateUpdateModel
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+
+@using (Html.BeginForm("Update", "Email", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.EmailTemplateId)
+    @Html.HiddenFor(x => x.Name)
+
+    <div class="row">
+        <div class="columns large-6">
+            @Html.DisplayNameFor(x => x.From)
+            @Html.TextBoxFor(x => x.From)
+            @Html.ValidationMessageFor(x => x.From)
+        </div>
+        <div class="columns large-6">
+            @Html.DisplayNameFor(x => x.To)
+            @Html.TextBoxFor(x => x.To)
+            @Html.ValidationMessageFor(x => x.To)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns large-6">
+            @Html.DisplayNameFor(x => x.Bcc)
+            @Html.TextBoxFor(x => x.Bcc)
+            @Html.ValidationMessageFor(x => x.Bcc)
+        </div>
+        <div class="columns large-6">
+            @Html.DisplayNameFor(x => x.Cc)
+            @Html.TextBoxFor(x => x.Cc)
+            @Html.ValidationMessageFor(x => x.Cc)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns large-12">
+            @Html.DisplayNameFor(x => x.Subject)
+            @Html.TextBoxFor(x => x.Subject)
+            @Html.ValidationMessageFor(x => x.Subject)
+        </div>
+        <div class="columns large-12">
+            @Html.DisplayNameFor(x => x.Body)
+            @Html.Kendo().EditorFor(x => x.Body).Encode(false)
+            @Html.ValidationMessageFor(x => x.Body)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns large-12">
+            <a class="button secondary left" href="@Url.Action("Index", "Email")">@Html.Lang("back")</a>
+            <button class="right">@Html.Lang("save")</button>
+        </div>
+    </div>
+}

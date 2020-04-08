@@ -1,0 +1,43 @@
+﻿@model UserGridModel
+@{
+    var id = Html.RandomID();
+    var tmpl_id = Html.RandomID();
+}
+@(Html.Kendo().Grid<UserGridModel>()
+        .Name(id)
+        .HtmlAttributes(new { @class = "black-grid medium-sized" })
+        .Columns(columns =>
+        {
+            columns.Bound(m => m.Lastname);
+            columns.Bound(m => m.Firstname);
+            columns.Bound(m => m.Login);//.ClientTemplate(@Html.ActionLink("#=Login#", "Infos", new { Id = "#=Id#" }).ToHtmlString());
+            columns.Bound(m => m.SocietyName).ClientTemplate(@Html.ActionLink("#=SocietyName#", "SocietyInfos", "Society", new { Id = "#=SocietyId#" }, null).ToHtmlString());
+            columns.Bound(m => m.Title);
+            columns.Bound(m => m.ValidityDate).Format("{0:dd/MM/yyyy HH:mm}");
+            columns.Bound(m => m.LastLoginDate).Format("{0:dd/MM/yyyy HH:mm}");
+            columns.Template(@<text></text>).ClientTemplate("#= kendo.template($(\"\\#" + tmpl_id + "\").html())(data) #").Title(LangHelper.Translate("actions"));
+        })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(r => r.Action("ReadClients", "User", new { area = "Admin", IsBayer = false, TypeStatut = Ftel.Domain.DomainModel.MembershipUser.Statut.ALLOWED }))
+            .Model(model =>
+            {
+                model.Id(c => c.Login);
+                model.Field(c => c.Statut).Editable(false);
+            })
+            .Sort(c =>
+            {
+                c.Add(m => m.Lastname);
+                c.Add(m => m.Firstname);
+            })
+            .PageSize(10)
+    )
+    .Pageable(p => p.Refresh(true))
+    .Filterable()
+    .Sortable()
+)
+
+<script id="@(tmpl_id)" type="text/x-kendo-tmpl">
+    <a href="@Url.Action("Infos", "User")?id=#: data.Id #" class="action-link"><i class="fa fa-search" title=""></i></a>
+    <a href="@Url.Action("Edit", "User")?id=#: data.Id #" class="action-link"><i class="fa fa-edit" title=""></i></a>
+</script>

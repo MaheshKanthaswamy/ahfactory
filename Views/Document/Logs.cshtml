@@ -1,0 +1,45 @@
+﻿@model Guid
+@{
+    var id = Html.RandomID();
+}
+
+<div class="row">
+    <div class="small-12 column">
+        @(Html.Kendo().Grid<DocumentLogModel>
+            ()
+            .Name("grid_" + id)
+            .HtmlAttributes(new { @class = "logs-table" })
+            .Columns(columns =>
+            {
+                columns.Bound(m => m.Day).Format("{0:dd/MM/yyyy}");
+                columns.Bound(m => m.Hour).Format("{0:HH:mm}").Groupable(false);
+                columns.Bound(m => m.UserId).ClientTemplate("<a href='" + Url.Action("Infos", "User", new { area = "Admin" }) + "/#:UserId#'>#:UserName#</a>").ClientGroupHeaderTemplate("#= getUsernameById(" + "grid_" + id + ",value) #");
+                columns.Bound(m => m.Action).ClientGroupHeaderTemplate("#= value # (#= count #)");
+                columns.Bound(m => m.Version).HtmlAttributes(new { style="text-align:center;" }).ClientTemplate("# if(DocumentInternalId != null){ # <a href='" + Url.Action("Details", "Document", new { area = "" }) + "/#:DocumentInternalId#'>#:Version#</a> # } else { # #: Version # # } #");
+            })
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(r => r.Action("ReadLogs", "Document", new { area = "", id = Model }))
+            .Aggregates(a =>
+            {
+                a.Add(p => p.Action).Count();
+            })
+                .Group(groups => groups.Add(p => p.Action))
+            )
+            .Filterable()
+            .Sortable()
+            .Groupable()
+            .Events(e => e.DataBound("databound_" + id))
+        )
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    function databound_@(id)(e) {
+        var grid = e.sender;
+        grid.tbody.find("tr.k-grouping-row").each(function (index) {
+            grid.collapseGroup(this);
+        });
+    }
+</script>

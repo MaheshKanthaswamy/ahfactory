@@ -1,0 +1,88 @@
+﻿@{
+    var id = Html.RandomID();
+    var SearchDocumentModel = (SearchDocumentModel)ViewBag.SearchDocumentModel;
+}
+
+<header>
+    <div class="content">
+        <div class="row">
+            <div class="small-12 column">
+                <div class="content-content">
+                    <div class="content-logo">
+                        <a href="@Url.Action("Index", "Home", new { area = "", DocumentType = (DocumentType?)null })">
+                            <img src="@Url.Content("~/Content/images/logos/logo.png")" alt="AH Digital Factory" />
+                        </a>
+                    </div>
+                    <div class="content-info">
+                        <div class="content-info-content">
+                            <div class="content-info-menu">
+                                @if (GlobalVariables.IsAuthenticated)
+                                {
+                                    <div id="user-controller_@(id)" class="user-controls-container" data-toggle="user-controls-dropdown">
+                                        <button class="user-controls">
+                                            @GlobalVariables.Usernames
+                                        </button>
+                                    </div>
+
+                                    <div class="dropdown-pane" id="user-controls-dropdown" data-dropdown data-hover="true" data-hover-pane="true">
+                                        <ul class="menu vertical">
+                                            <li><a href="@Url.Action("Infos", "User", new { area = "" })"><i class="fa fa-user"></i> @Html.Lang("my.account")</a></li>
+                                            @if (!AppConstants.IsAD)
+                                            {
+                                                <li><a href="@Url.Action("LogOff", "User", new { area = "" })"><i class="fa fa-power-off"></i> @Html.Lang("log.off")</a></li>
+                                            }
+
+                                            @*@if (RoleHelper.IsAdminData || RoleHelper.IsAdminTech)
+                                            {
+                                                <li class="@(GlobalVariables.AdminViewActivated ? "is-active" : "")">
+                                                    <a href="@Url.Action("ToggleAdminView", "User", new { area = "", ReturnURL = Request.RawUrl })">
+                                                        @if (GlobalVariables.AdminViewActivated)
+                                                        {
+                                                            <i class="fa fa-eye"></i> @Html.Lang("admin.view")
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fa fa-eye-slash"></i> @Html.Lang("admin.view")
+                                                        }
+                                                    </a>
+                                                </li>
+                                            }*@
+                                        </ul>
+                                    </div>
+                                }
+
+                                <ul class="menu align-right show-for-medium">
+                                    <li><a href="@Url.Action("LegalNotice", "Page", new { area = "" })">@LangHelper.Translate("legal.notice")</a></li>
+                                    <li><a href="@Url.Action("TermsOfService", "Page", new { area = "" })">@LangHelper.Translate("terms.of.service")</a></li>
+                                    <li><a href="@Url.Action("PrivacyPolicy", "Page", new { area = "" })">@LangHelper.Translate("privacy.policy")</a></li>
+                                    <li><a href="@Url.Action("Index", "Contact", new { area = "" })">@LangHelper.Translate("contact")</a></li>
+
+                                    @if (RoleHelper.IsAdminData || RoleHelper.IsAdminTech)
+                                    {
+                                        <li><a href="@Url.Action("Admin", "Page", new { area = "" })">@LangHelper.Translate("admin")</a></li>
+                                    }
+
+                                    <li><a href="@Url.Action("Index", "Home", new { area = "", DocumentType = (DocumentType?)null })">@LangHelper.Translate("home")</a></li>
+                                </ul>
+                            </div>
+                            <div class="content-info-logo">
+                                <img src="@Url.Content("~/Content/images/logos/bayer.png")" alt="Bayer" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @{ Html.RenderPartial("_Menu"); }
+</header>
+
+@if (Html.ControllerName() == "Home")
+{
+    Html.RenderPartial("_SubHeader", SearchDocumentModel);
+}
+else
+{
+    Html.RenderPartial("_SubHeaderBreadscrumb");
+}

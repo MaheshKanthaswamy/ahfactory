@@ -1,0 +1,68 @@
+﻿﻿@model UserProfileModel_ReadOnly
+@{
+    var isadmin = RoleHelper.IsAdminData || RoleHelper.IsAdminTech;
+}
+
+<div class="row">
+    <div class="small-12 @(isadmin ? "medium-4" : "medium-6 large-5 medium-centered") column">
+        <div class="user-infos">
+            <div class="row">
+                <div class="small-12 column">
+                    <h5 class="no-mar-top">
+                        @Model.Firstname @Model.Lastname
+                    </h5>
+                </div>
+
+                <div class="small-12 medium-4 column">
+                    @Html.LabelFor(m => m.Email)
+                </div>
+                <div class="small-12 medium-8 column ftel-editor-field">
+                    @Model.Email &nbsp;
+                </div>
+
+                <div class="small-12 medium-4 column">
+                    @Html.LabelFor(m => m.Login)
+                </div>
+                <div class="small-12 medium-8 column ftel-editor-field">
+                    @Model.Login &nbsp;
+                </div>
+
+                <div class="small-12 medium-4 column">
+                    @Html.LabelFor(m => m.Roles)
+                </div>
+                <div class="small-12 medium-8 column ftel-editor-field">
+                    @if (Model.Roles.Any())
+                    {
+                        <div>
+                            @string.Join(", ", Model.Roles.Select(r => r.Name))
+                        </div>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </div>
+
+                <div class="small-12 medium-4 column">
+                    @Html.LabelFor(m => m.LastActivityDate)
+                </div>
+                <div class="small-12 medium-8 column ftel-editor-field">
+                    @if (!Model.LastActivityDate.HasValue)
+                    {
+                        <text>-</text>
+                    }
+                    else
+                    {
+                        @Model.LastActivityDate
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (isadmin)
+    {
+        <div class="small-12 medium-8 column mar-top">
+            @Html.WebPart("Logs", "User", "Admin", Model.Id)
+        </div>
+    }
+</div>

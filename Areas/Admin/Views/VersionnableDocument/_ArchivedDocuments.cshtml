@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ArchivedDocumentsGridModel>
+@{
+    var id = Html.RandomID();
+    var detail_tmpl_id = Html.RandomID();
+    var tmpl_id = Html.RandomID();
+}
+
+@(Html.Kendo().Grid<ArchivedDocumentsGridModel>()
+        .Name("ArchivedDocumentsGridModel")
+        //.Editable(editable => editable.Mode(GridEditMode.InLine))
+        .Columns(columns =>
+        {
+            columns.Bound(m => m.Name).ClientTemplate("<a href='" + Url.Action("Details", "Document", new { area = "" }) + "/#: LastVersionId #'>#:Name#</a>");
+            columns.Bound(m => m.DateCreation).Format("{0:dd/MM/yyyy}");
+            columns.Bound(m => m.ValidityDate).Format("{0:dd/MM/yyyy}");
+            //columns.Bound(m => m.ArchivedBy);
+            //columns.Command(commands =>
+            //{
+            //    commands.Edit();
+            //    commands.Destroy();
+            //}).Width(90).Title(LangHelper.Translate("actions"));
+        })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read("Read", "ArchivedDocuments",new { area = "Admin" })
+            //.Update("CreateOrUpdate", "Range")
+            //.Destroy("Delete", "ArchivedDocuments")
+            .Model(model =>
+            {
+                model.Id(c => c.Id);
+                model.Field(c => c.ArchivedBy).Editable(false);
+                model.Field(c => c.DateCreation).Editable(false);
+                model.Field(c => c.Name).Editable(false);
+            })
+            .Sort(o => o.Add(s => s.Name))
+            .PageSize(30)
+        )
+        .ClientDetailTemplateId(detail_tmpl_id)
+        .Sortable(sorting => { sorting.SortMode(GridSortMode.SingleColumn); })
+        .Filterable()
+        .Pageable(p => p.Refresh(true))
+)
+
+<script id="@detail_tmpl_id" type="text/kendo-tmpl">
+
+    @(Html.Kendo().Grid<VersionnableDocumentDetailGridModel>()
+          .Name("grid_#=Id#")
+          .Columns(columns =>
+          {
+              columns.Bound(m => m.Version);
+              columns.Bound(m => m.Name);
+              columns.Bound(m => m.VersionStart).Format("{0:dd/MM/yyyy}");
+          })
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .PageSize(5)
+              .Read(read => read.Action("ReadDetails", "VersionnableDocument", new { id = "#=Id#" })).Sort(s => s.Add("Version").Descending())
+          )
+          .Pageable()
+          .Sortable()
+          .ToClientTemplate()
+    )
+
+</script>

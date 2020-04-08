@@ -1,0 +1,73 @@
+﻿@model SearchDocumentModel
+
+@{
+    var id = Html.RandomID();
+    var documentSize = 200;
+}
+
+<div class="documents-list">
+
+
+    @(Html.Kendo().ListView<DocumentModel>()
+        .Name("DocumentsList_" + id)
+        .HtmlAttributes(new { @class = "row small-up-2 medium-up-4 large-up-6" })
+        .TagName("div")
+        .ClientTemplateId("DocumentTemplate_" + id)
+        .DataSource(dataSource =>
+        {
+            dataSource.Read(read => read.Action("Read_Documents", "Document").Data("getModel_" + id)).Sort(d => d.Add("Name"));
+            dataSource.PageSize(30);
+        })
+        .Pageable(p => p.Refresh(true))
+        .Events(e => e.DataBound("databound_" + id))
+    )
+</div>
+
+<script type="text/x-kendo-tmpl" id="DocumentTemplate_@(id)">
+    # var daysRemaining = DaysRemainingBeforeExpiration; #
+    <div class="column column-block">
+        
+        <a class="document" href="@Url.Action("Details", "Document")/#: Id #?FromType=@Model.DocumentType" title="#: Name #">
+            <div class="document-type">#: TypeName #</div>
+            # if (IsInCache) { #
+            <img width="@documentSize" height="@documentSize" src="@Url.Content("~/app_cache/")/#: SearchThumbnailUrl #" />
+            # } else { #
+            <img width="@documentSize" height="@documentSize" src="#: SearchThumbnailUrl #&width=@(documentSize)&height=@(documentSize)" />
+            # } #
+
+            # if(ShowArchivedInfo) { #
+            <div class="document-archived-warning"><i class="fa fa-archive"></i> @Html.Raw(LangHelper.Translate("document.is.archived"))</div>
+            # } else if(ShowValidityWarning && daysRemaining >= 0) { #
+            <div class="document-validity-warning">
+                <i class="fa fa-warning"></i>
+                # if(daysRemaining == 0) { #
+                @Html.Raw(LangHelper.Translate("end.validity.today"))
+                # } else if(daysRemaining == 1) { #
+                @Html.Raw(LangHelper.Translate("end.validity.tomorrow"))
+                # } else if(daysRemaining > 0) { #
+                @Html.Raw(string.Format(LangHelper.Translate("end.validity.days"), "#: daysRemaining #"))
+                # } #
+            </div>
+            # } #
+        </a>
+        <div class="document-name">#: Name #</div>
+        
+        <div class="document-date">@Html.Raw(LangHelper.Translate("end.validity")) : #: kendo.toString(ValidityDate, "d") #</div>
+    </div>
+</script>
+
+<script type="text/javascript">
+    function databound_@(id)(e) {
+        if (this.dataSource.data().length == 0) {
+            $("#DocumentsList_@(id)").append("<h5 class='no-document text-center no-mar-bottom'>@LangHelper.Translate("no.document")</h5>");
+        }
+    }
+
+    function getModel_@(id)() {
+        return {
+            Text: "@Model.Text",
+            RangeId: "@Model.RangeId",
+            DocumentType: "@Model.DocumentType"
+        }
+    }
+</script>

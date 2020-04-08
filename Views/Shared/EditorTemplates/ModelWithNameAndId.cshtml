@@ -1,0 +1,13 @@
+@model ModelWithNameAndId
+
+@{
+    const string dropdownlistkey = DropDownListAttribute.AdditionalValueKey;
+
+    var isdropdownlist = ViewData.ModelMetadata.AdditionalValues.ContainsKey(dropdownlistkey);
+}
+
+@if (isdropdownlist)
+{
+    var dropdownlist = ViewData.ModelMetadata.AdditionalValues[dropdownlistkey] as string;
+    Html.RenderPartial("~/Views/Shared/EditorTemplates/KendoDropDownList.cshtml", new KendoDropDownList(Model, ViewData, dropdownlist, "Api"));
+}

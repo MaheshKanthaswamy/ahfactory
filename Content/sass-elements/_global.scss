@@ -1,0 +1,160 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+html, body {
+    width: 100%;
+    //height: 100%;
+    //overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    width: 1px;
+    min-width: 100%;
+    *width: 100%;
+}
+
+/* http://stackoverflow.com/a/30170745 */
+label > * {
+    pointer-events: none;
+}
+
+main {
+    background-color: $main-background-color;
+
+    @if ($main-background-image != "") {
+        @if($main-background-attachment != "fixed") {
+            background-image: url($main-background-image);
+            background-size: #{$main-background-size};
+            background-attachment: #{$main-background-attachment};
+            background-position: #{$main-background-position};
+            background-repeat: #{$main-background-repeat};
+        }
+        @else {
+            background: none;
+
+            &::before {
+                content: ' ';
+                position: fixed; // instead of background-attachment
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background-color: $main-background-color;
+                background-image: url($main-background-image);
+                background-size: #{$main-background-size};
+                background-position: #{$main-background-position};
+                background-repeat: #{$main-background-repeat};
+                will-change: transform; // creates a new paint layer
+                z-index: -1;
+            }
+        }
+    }
+
+    padding: 0;
+
+    @include breakpoint(medium) {
+        padding: $global-padding 0;
+    }
+}
+
+.hr {
+    @extend hr;
+    position: relative;
+
+    &.or {
+        text-align: center;
+
+        span {
+            padding: 10px;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 300;
+            position: relative;
+            top: -12px;
+            background: $card-content-background-color;
+        }
+    }
+}
+
+.k-block, .k-widget {
+    background-color: $card-content-background-color;
+    color: $card-content-text-color;
+
+    div, span, p, h1, h2, h3, h4, h5, h6, label {
+        color: $card-content-text-color;
+    }
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+/* Correction liste déroulante Editor Kendo */
+.k-animation-container {
+    .k-list-container {
+        min-width: 197px;
+    }
+}
+
+.k-window {
+    border-radius: $card-border-radius !important;
+    overflow: hidden;
+
+    .k-window-titlebar {
+        z-index: 1 !important;
+        display: table !important;
+        background: $card-title-background-color !important;
+
+        .k-window-title {
+            color: $card-title-text-color !important;
+        }
+    }
+}
+
+.k-numerictextbox > .k-numeric-wrap {
+    &:before {
+        content: "";
+        display: inline;
+    }
+
+    &.k-state-hover:not(.k-state-focused) {
+        box-shadow: none;
+    }
+
+    & > input {
+        display: inline;
+        width: 100% !important;
+        box-shadow: none !important;
+        border: none;
+    }
+}
+
+/** {
+    &, &:before, &:after {
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    } 
+}*/
+
+input, textarea {
+    &, &:before, &:after {
+        -webkit-user-select: text;
+        -khtml-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+    }
+}
+
+select {
+    outline: none;
+}
+
+.k-upload-files {
+    padding-bottom: 0;
+}

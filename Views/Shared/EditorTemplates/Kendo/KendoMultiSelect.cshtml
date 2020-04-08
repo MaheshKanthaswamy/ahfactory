@@ -1,0 +1,62 @@
+﻿@model KendoMultiSelect
+
+@{
+    var model = new List<Guid>();
+    if (Model.Model != null)
+    {
+        model.AddRange(Model.Model.Select(i => i.Id));
+    }
+    string data = null;
+    if (Model.ViewData.ModelMetadata.AdditionalValues.ContainsKey("ReadData"))
+    {
+        data = (string) Model.ViewData.ModelMetadata.AdditionalValues["ReadData"];
+    }
+
+    string databound = null;
+    if (Model.ViewData.ModelMetadata.AdditionalValues.ContainsKey("DataBound"))
+    {
+        databound = (string) Model.ViewData.ModelMetadata.AdditionalValues["DataBound"];
+    }
+
+    string change = null;
+    if (Model.ViewData.ModelMetadata.AdditionalValues.ContainsKey("Change"))
+    {
+        change = (string) Model.ViewData.ModelMetadata.AdditionalValues["Change"];
+    }
+
+    string select = null;
+    if (Model.ViewData.ModelMetadata.AdditionalValues.ContainsKey("Select"))
+    {
+        select = (string) Model.ViewData.ModelMetadata.AdditionalValues["Select"];
+    }
+}
+
+<div class="ftel-editor-field">
+    @(Html.Kendo()
+          .MultiSelect()
+          .Name(ViewData.TemplateInfo.HtmlFieldPrefix)
+          .HtmlAttributes(new {id = Html.RandomID()})
+          .DataSource(source => { source.Read(read => { read.Action(Model.ActionName, Model.ControllerName, new {area = Model.Area}).Data(data); }); })
+          .Events(e =>
+          {
+              if (!string.IsNullOrWhiteSpace(databound))
+              {
+                  e.DataBound(@<text>function(e){if(@(databound))@(databound)(e);}</text>);
+              }
+              if (!string.IsNullOrWhiteSpace(change))
+              {
+                  e.Change(@<text>function(e){if(@(change))@(change)(e);}</text>);
+              }
+              if (!string.IsNullOrWhiteSpace(select))
+              {
+                  e.Select(@<text>function(e){if(@(select))@(select)(e);}</text>);
+              }
+          })
+          .Filter(Model.Filter)
+          .DataTextField(Model.DataTextField)
+          .DataValueField(Model.DataValueField)
+          .Value(model)
+      )
+    @Html.ValidationMessage(Model.DataTextField)
+    @Html.ValidationMessage(Model.DataValueField)
+</div>

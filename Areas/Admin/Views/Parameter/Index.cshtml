@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = Html.Lang("title.administration.parameters");
+    var IsAdminTech = RoleHelper.IsAdminTech;
+}
+
+<div class="row">
+    <div class="small-12 medium-4 large-3 column">
+        @Html.WebPart("DefaultThumbnailImage", "Parameter", "Admin")
+    </div>
+    <div class="small-12 medium-8 large-9 column">
+        <h3><i class="fa fa-gear"></i> @LangHelper.Translate("parameters")</h3>
+        @{Html.Kendo().Grid<ParametersGridModel>()
+            .Name("ParameterGrid")
+            .ToolBar(e =>
+            {
+                if (IsAdminTech)
+                {
+                    e.Create().HtmlAttributes(new { @class = "" });
+                }
+            })
+
+            .HtmlAttributes(new { @class = "md-table" })
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.NameFormat).Filterable(false).Sortable(false);
+
+                if (IsAdminTech)
+                {
+                    columns.Bound(o => o.Name).Filterable(false).Sortable(false).Width(150);
+                }
+
+                columns.Bound(o => o.Value).Filterable(false).Sortable(false);
+                columns.Command(commands =>
+                {
+                    commands.Edit().HtmlAttributes(new { @class = "" });
+
+                    if (IsAdminTech)
+                    {
+                        commands.Destroy().HtmlAttributes(new { @class = "" });
+                    }
+                }).Width(IsAdminTech ? 262 : 150)
+                .HtmlAttributes(new { @class = "text-right" });
+            })
+            .Groupable(grouping => grouping.Enabled(false))
+            .Sortable(sorting => { sorting.SortMode(GridSortMode.MultipleColumn); })
+            .Filterable()
+            .Pageable(p => p.Refresh(true))
+            .Events(e => e.Edit("edit"))
+            .DataSource(dataSource =>
+            {
+                dataSource
+                    .Ajax()
+                    .Sort(s => s.Add(m => m.Name))
+                    .Model(model => model.Id(m => m.Name))
+                    .Read(read => read.Action("Read", "Parameter"))
+                    .Create(create => create.Action("CreateOrUpdate", "Parameter"))
+                    .Update(update => update.Action("CreateOrUpdate", "Parameter"));
+
+                if (IsAdminTech)
+                {
+                    dataSource.Ajax().Destroy(destroy => destroy.Action("Delete", "Parameter"));
+                }
+            })
+            .Render();
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    var isCreating;
+
+    function edit(e) {
+        if (isCreating) {
+            $('input[name *= "Name"]').attr("disabled", false);
+            isCreating = false;
+        }
+        else
+            $('input[name *= "Name"]').attr("disabled", true);
+    }
+
+    $(document).ready(function () {
+        isCreating = false;
+
+        $(".k-grid-add").on("click", function (e) {
+            isCreating = true;
+        });
+    })
+</script>

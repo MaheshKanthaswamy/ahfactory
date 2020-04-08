@@ -1,0 +1,25 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.nocookie-content {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 3000; 
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255,255,255, 0.9);
+    padding:$global-padding 0; 
+
+    @include flex-custom();
+    @include flex-align-center();
+
+    .nocookie-content-icon {
+        font-size:50px;
+        color:#cc3f3f;
+    }
+
+    .nocookie-content-text {
+        font-size:20px;
+    }
+}

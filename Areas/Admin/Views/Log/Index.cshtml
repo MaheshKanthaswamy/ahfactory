@@ -1,0 +1,27 @@
+﻿@{
+    var id = Html.RandomID();
+}
+
+<div class="row emails-logs">
+    <div class="small-12 column">
+        @(Html.Kendo().Grid<LogGridModel>()
+            .Name("LogGrid")
+            .HtmlAttributes(new { @class = "logs-table" })
+            .Columns(columns =>
+            {
+                columns.Bound(m => m.CreationDate).Format("{0:dd/MM/yyyy}");
+                columns.Bound(m => m.Author);
+                columns.Bound(m => m.Assembly);
+                columns.Bound(m => m.Detail);
+                columns.Bound(m => m.Level);
+                columns.Bound(m => m.Source);
+            })
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(r => r.Action("ReadLogs", "Log", new { area = "Admin" })))
+            .Filterable()
+            .Sortable()
+            .Pageable(p => p.Refresh(true))
+        )
+    </div>
+</div>

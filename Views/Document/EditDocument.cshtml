@@ -1,0 +1,305 @@
+﻿@using Newtonsoft.Json;
+@model EditDocumentModel
+@{
+    var id = Html.RandomID();
+    var imagesTypes = Html.Raw(JsonConvert.SerializeObject(DocumentHelper.ContentTypes[DocumentHelper.IMG_KEY]));
+}
+
+<script>
+    var imageTypes = @imagesTypes;
+</script>
+
+@if (Model.ShowArchivedInfo)
+{
+    Html.RenderPartial("_ArchivedInfo");
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.DocumentFileName))
+{
+    <ul id="existing-files" class="k-upload-files k-reset" style="display: none;">
+        <li class="k-file" data-att-id="@Model.Id">
+            <span class="k-file-extension-wrapper">
+                <span class="k-file-extension">@Model.DocumentFileExtension</span>
+                <span class="k-file-state"></span>
+            </span>
+            <span class="k-file-name-size-wrapper">
+                <span class="k-file-name" title="@Model.DocumentFileName">@Model.DocumentFileName</span>
+                <span class="k-file-size">@Model.GetSizeFormat(Model.DocumentFileSize)</span>
+            </span>
+        </li>
+    </ul>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.ThumbnailFileName))
+{
+    <ul id="existing-files-thumbnail" class="k-upload-files k-reset" style="display: none;">
+        <li class="k-file" data-att-id="@Model.ThumbnailId">
+            <span class="k-file-extension-wrapper">
+                <span class="k-file-extension">@Model.ThumbnailFileExtension</span>
+                <span class="k-file-state"></span>
+            </span>
+            <span class="k-file-name-size-wrapper">
+                <span class="k-file-name" title="@Model.ThumbnailFileName">@Model.ThumbnailFileName</span>
+                <span class="k-file-size">@Model.GetSizeFormat(Model.ThumbnailFileSize)</span>
+            </span>
+        </li>
+    </ul>
+}
+
+@using (Html.BeginForm("EditDocument", "Document", new { }, FormMethod.Post, new { id }))
+{
+    <div class="row edit-document">
+        <div class="small-12 medium-4 column">
+            <div class="ftel-editor-field">
+                <label>@LangHelper.Translate("document")</label>
+                <div class="dropzone-file-@(id)">
+                    <img src="@Url.Action("GetFile", "Api", new { id = Model.Id })?height=400" class="dropzone-zone @(DocumentHelper.IsImage(Model.ContentType) ? "" : "hide")" id="file_@(id)" />
+                    @*<img src="" class="dropzone-zone imgdrop @(DocumentHelper.IsImage(Model.ContentType) ? "" : "hide")" id="file_@(id)" />*@
+                </div>
+
+                <script>
+                    function onSelect_file_@(id)(e) {
+                        $.each(e.files, function (index, value) {
+                            readMultipleFiles_file_@(id)(value);
+                        });
+                    }
+
+                    function readMultipleFiles_file_@(id)(file) {
+                        var filetype = file.rawFile.type;
+                        var needThumbnail = imageTypes.indexOf(filetype) === -1;
+
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+
+                            if (!needThumbnail) {
+                                $("#file_@(id)").attr("src", e.target.result);
+
+                                $("#file_@(id)").removeClass("hide");
+                                $("#thumbnail_@(id)").addClass("hide");
+                            } else {
+                                $("#file_@(id)").addClass("hide");
+                                $("#thumbnail_@(id)").removeClass("hide");
+                            }
+                        }
+                        reader.readAsDataURL(file.rawFile);
+                    }
+                </script>
+
+                @(Html.Kendo().Upload()
+                    .Name("File")
+                    .Events(e => e.Select("onSelect_file_" + id))
+                    .Multiple(false)
+                    .Async(a => a.AutoUpload(false))
+                    .DropZone(".dropzone-file-" + id)
+                    .Files(f => f.Add().Name(Model.DocumentFileName).Extension("jpg").Size(400))
+                    .Validation(validation =>
+                    {
+                        //validation.AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif" });
+                        validation.MinFileSize(0);
+                    })
+                )
+            </div>
+            
+            @*<div class="@(DocumentHelper.IsImage(Model.ContentType) ? "hide" : "")" id="thumbnail_@(id)">*@
+            <div class="@((Model.DocumentFileSize > 3000000) ? "" : "hide")" id="thumbnail_@(id)">
+                <div class="callout warning">
+                    <p>@LangHelper.Translate("file.need.thumbnail")</p>
+                </div>
+
+                <div class="ftel-editor-field">
+                    <label>@LangHelper.Translate("thumbnail")</label>
+
+                    <div class="dropzone-thumbail-@(id)">
+                        <img src="@Url.Action("GetFile", "Api", new {id = Model.ThumbnailId})?height=400" class="dropzone-zone @(Model.ThumbnailId.HasValue ? "" : "hide")" id="file_thumbnail_@(id)" />
+                    </div>
+
+                    <script>
+                        function onSelect_thumbnail_@(id)(e) {
+                            $.each(e.files, function (index, value) {
+                                readMultipleFiles_thumbnail_@(id)(value);
+                            });
+                        }
+
+                        function readMultipleFiles_thumbnail_@(id)(file) {
+                            var filetype = file.rawFile.type;
+                            var needThumbnail = imageTypes.indexOf(filetype) === -1;
+
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                $("#file_thumbnail_@(id)").attr("src", e.target.result);
+                                $("#file_thumbnail_@(id)").removeClass("hide");
+                            }
+                            reader.readAsDataURL(file.rawFile);
+                        }
+                    </script>
+
+                    @(Html.Kendo().Upload()
+                        .Name("Thumbnail")
+                        .Multiple(false)
+                        .Events(e => e.Select("onSelect_thumbnail_" + id))
+                        .Async(a => a.AutoUpload(false))
+                        .DropZone(".dropzone-thumbail-" + id)
+                        .Validation(validation =>
+                        {
+                            validation.AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif" });
+                            validation.MinFileSize(0);
+                        })
+                    )
+                </div>
+            </div>
+        </div>
+        <div class="small-12 medium-8 column">
+
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.ItemId)
+            @Html.FTELEditorFor(m => m.VersionName)
+            @Html.FTELEditorFor(m => m.DocumentType)
+            @*
+                @if (Model.DocumentType == DocumentType.UNDEFINED)
+                {
+                    @Html.FTELEditorFor(m => m.DocumentType)
+                }
+                else
+                {
+                    <div class="ftel-editor-field">
+                        <label>@LangHelper.Translate("document.type")</label>
+                        <div>
+                            @LangHelper.Translate(Model.DocumentType.ToString().ToLower().ToCamelCase().CamelCaseToRessourcePropertyName())
+                        </div>
+                    </div>
+
+                    @Html.HiddenFor(m => m.DocumentType)
+                }*@
+
+
+            <div class="ftel-editor-field">
+                <label>@LangHelper.Translate("ranges")</label>
+                <div>
+                    @(Html.Kendo().MultiSelect()
+                          .Name("Ranges")
+                          .Placeholder(LangHelper.Translate("ranges"))
+                          .DataSource(source =>
+                          {
+                              source.Read("ReadRanges", "Api", new { });
+                          })
+                          .DataValueField("Id")
+                          .DataTextField("Name")
+                          .Value(Model.Ranges != null ? Model.Ranges : new Guid[] { })
+                    )
+                </div>
+            </div>
+            @Html.FTELEditorFor(m => m.DocUrl)
+            @Html.FTELEditorFor(m => m.AdvertisingCode)
+            @Html.FTELEditorFor(m => m.ValidityDate)
+
+            <div class="ftel-editor-field">
+                <div class="document-source-container">
+                    <div class="source-file-content-title-container">
+                        <div class="source-file-content-title">@Html.Lang("source.file.content") :</div>
+                        @if (Model.SourceModel != null)
+                        {
+                            <div class="source-file-content-title-name">
+                                <a href="@Url.Action("DownloadFile", "Api", new {id = Model.SourceModel.Id})"><i class="fa fa-download"></i> @Model.SourceModel.Name</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="source-file-content-title-name">
+                               @Html.Lang("source.extensions.authorized")
+                            </div>
+                        }
+                    </div>
+                    @if (Model.SourceModel != null)
+                    {
+                        if (Model.SourceModel.FilesName != null && Model.SourceModel.FilesName.Any())
+                        {
+                            <div class="source-file-ul-container">
+                                <ul>
+                                    @foreach (var name in Model.SourceModel.FilesName)
+                                    {
+                                        <li>@name</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    }
+                </div>
+
+                @(Html.Kendo().Upload()
+                      .Name("Source")
+                      .Multiple(false)
+                      .Async(a => a.AutoUpload(false))
+                      .DropZone(".dropzone-zone")
+                      .Validation(validation =>
+                      {
+                          //validation.AllowedExtensions(new string[] { ".zip", ".rar", ".tar.gz", ".tar" });
+                          validation.MinFileSize(0);
+                      })
+                      .Messages(m => m.InvalidFileExtension(LangHelper.Translate("file.type.not.allowed") + " (" + LangHelper.Translate("source.extensions.authorized") + ")"))
+                )
+            </div>
+            @Html.FTELEditorFor(m => m.Commentary)
+
+            <div class="text-right">
+                @if (Model.Status == DocumentStatus.ARCHIVED)
+                {
+                    <a data-confirm="@Html.Lang("confirm.delete.document")" class="button light bordered no-mar-bottom" href="@Url.Action("DeleteDocument", "Document", new { Id = Model.Id, FromType =  Model.FromType })"><i class="fa fa-trash"></i> @Html.Lang("delete.document")</a>
+                    <a class="button light bordered no-mar-bottom" href="@Url.Action("UnarchiveDocument", "Document", new { Id = Model.Id, FromType =  Model.FromType })"><i class="fa fa-archive"></i> @Html.Lang("unarchive.document")</a>
+                }
+                else
+                {
+                    <a class="button light bordered no-mar-bottom" href="@Url.Action("ArchiveDocument", "Document", new { Id = Model.Id, FromType =  Model.FromType })"><i class="fa fa-archive"></i> @Html.Lang("archive.document")</a>
+                }
+                <button type="submit" class="button">@LangHelper.Translate("save")</button>
+            </div>
+        </div>
+    </div>
+}
+
+    <script type="text/javascript">
+    function InitFiles(elem, upload){
+        var $fileList, $files, item, _fn, _i, _len;
+        $fileList = elem;
+        if ($fileList.length > 0) {
+            upload.closest(".k-upload").append($fileList);
+            $files = $fileList.find(".k-file");
+            _fn = function(item) {
+                var $item, fileId, filenames;
+                $item = $(item);
+                fileId = $item.data("att-id");
+                filenames = [
+                  {
+                      name: fileId
+                  }
+                ];
+                return $item.data("fileNames", filenames);
+            };
+            for (_i = 0, _len = $files.length; _i < _len; _i++) {
+                item = $files[_i];
+                _fn(item);
+            }
+            $fileList.show();
+        }
+    }
+
+    @*$(document).ready(function () {
+        $.ajax({
+            url: "@Url.Action("GetFile", "Api", new { id = Model.Id })?height=401",
+            //contentType: "application/json; chartset=utf-8",
+            //dataType: "json",
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                //$(".imgdrop").src = result;
+                $(".imgdrop").attr("src", result);
+                //$(".imgdrop").attr("src", "data:image/pn;base64,"+result);
+            }
+        });
+    });*@
+
+    $(function () {
+        $("#@(id)").ftelvalidation();
+        InitFiles($("#existing-files"), $("#File"));
+        InitFiles($("#existing-files-thumbnail"), $("#Thumbnail"));
+    })
+    </script>

@@ -1,0 +1,33 @@
+﻿<div class="row">
+    <div class="columns large-12">
+        @(Html.Kendo().Grid<LocaleResourceKeyGridModel>()
+            .Name("ResourceKeysGrid")
+            .ToolBar(e => e.Create())
+            .Columns(columns =>
+            {
+                columns.Bound(m => m.ResourceId).Hidden();
+                columns.Bound(m => m.Key);
+                columns.Command(commands =>
+                {
+                    commands.Edit();
+                    commands.Destroy();
+                }).Width(262).Title(Html.Lang("actions"));
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Create(r => r.Action("CreateOrUpdate", "ResourceKey"))
+                .Update(r => r.Action("CreateOrUpdate", "ResourceKey"))
+                .Read(r => r.Action("Read", "ResourceKey"))
+                .Destroy(d => d.Action("Delete", "ResourceKey"))
+                .Model(model =>
+                {
+                    model.Id(c => c.ResourceId);
+                    model.Field(c => c.ResourceId).Editable(false);
+                })
+                .PageSize(10)
+            )
+            .Pageable(p => p.Refresh(true))
+        )
+    </div>
+</div>
+

@@ -1,0 +1,3 @@
+﻿/*
+ Scripts de l'application
+*/

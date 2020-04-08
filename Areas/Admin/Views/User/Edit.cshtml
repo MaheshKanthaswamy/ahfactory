@@ -1,0 +1,351 @@
+﻿@using Kendo.Mvc.Extensions
+@using MembershipUser = Ftel.Domain.DomainModel.MembershipUser
+@model UserProfileModel
+
+@{
+    ViewBag.Title = Html.Lang("informations.user");
+    var id = Html.RandomID();
+    var ranges = Model.RangesNames;
+    var society = Model.RegisteredSociety;
+    var tmpl_id = Html.RandomID();
+    var documentSize = 100;
+}
+
+@using (Html.BeginForm("Edit", "User", new { }, FormMethod.Post, new { id = id }))
+{
+    <div class="row edit-document flex-center">
+
+        <div class="small-12 column">
+            <h3 class="page-title">
+                <i class="fa fa-user"></i> @ViewBag.Title @Model.Firstname @Model.Lastname
+            </h3>
+            @Html.HiddenFor(m => m.Id)
+
+            <div class="row">
+                <div class="small-12 medium-2 column">
+                    @Html.FTELEditorFor(m => m.Civility)
+                </div>
+                <div class="small-12 medium-5 column">
+                    @Html.FTELEditorFor(m => m.Firstname)
+                </div>
+                <div class="small-12 medium-5 column">
+                    @Html.FTELEditorFor(m => m.Lastname)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="small-12 medium-6 column">
+                    @Html.FTELEditorFor(m => m.Email)
+                </div>
+                <div class="small-12 medium-6 column">
+                    @Html.FTELEditorFor(m => m.EndValidityDate)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="small-12 @(Model.Society == null ? "medium-4" : "medium-6") column">
+                    @Html.FTELEditorFor(m => m.Title)
+                </div>
+                @if (Model.Society == null)
+                {
+                    <div class="small-12 medium-4 column text-right">
+                        <div class="ftel-editor-field">
+                            <label>@LangHelper.Translate("registered.society")</label>
+                            <div>
+                                @Model.RegisteredSociety
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="small-12 @(Model.Society == null ? "medium-4" : "medium-6") column">
+                    <div class="ftel-editor-field">
+                        <label>@LangHelper.Translate("society")</label>
+                        <div class="ftel-editor-field">
+                            @(Html.Kendo()
+                              .DropDownList()
+                              .Name("Society.Id")
+                              .DataSource(source => { source.Read(read => { read.Action("GetSocieties", "Api", new { area = "" }); }); })
+                              .DataTextField("Name")
+                              .DataValueField("Id")
+                              .Value(Model.Society == null ? "" : Model.Society.Id.ToString()))
+                        </div>
+                        @Html.ValidationMessage("Society.Id")
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="small-12 column">
+                    <div class="ftel-editor-field">
+                        <label>@LangHelper.Translate("ranges")</label>
+                        <div>
+                            @(Html.Kendo().MultiSelect()
+                                .Name("Ranges")
+                                .Placeholder(LangHelper.Translate("ranges"))
+                                .DataSource(source =>
+                                {
+                                    source.Read("ReadRanges", "User", new { });
+                                })
+                                .DataValueField("Id")
+                                .DataTextField("Name")
+                                .Value(Model.Ranges != null ? Model.Ranges : new Guid[] { })
+                                .Events(events => events.Change("onSelectRange"))
+                            )
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="small-12 column">
+                    <div class="ftel-editor-field">
+                        <label>Types de documents</label>
+                        <div>
+                            @(Html.Kendo().MultiSelect()
+                                .Name("Filtering")
+                                .Placeholder("Types de documents")
+                                .BindTo(new List<ModelFiltering>() {
+                                    new  ModelFiltering () {
+                                        Name = LangHelper.Translate("images"),
+                                        Value = "0"
+                                     },
+                                     new  ModelFiltering () {
+                                        Name = LangHelper.Translate("advert.tools"),
+                                        Value = "1"
+                                     },
+                                     new  ModelFiltering () {
+                                        Name = LangHelper.Translate("videos"),
+                                        Value = "2"
+                                     },
+                                     new  ModelFiltering () {
+                                        Name = LangHelper.Translate("guidelines"),
+                                        Value = "3"
+                                     },
+                                     new  ModelFiltering () {
+                                        Name = LangHelper.Translate("obligatory.text"),
+                                        Value = "4"
+                                     }
+                                })
+                                .DataValueField("Value")
+                                .DataTextField("Name")
+                                .Value(Model.Filtering != null ? Model.Filtering : new String[] { })
+                                .Events(events => events.Change("onSelectFiltering"))
+                            )
+                        </div>
+                    </div>
+                </div>
+                @if (Model.Statut == MembershipUser.Statut.INPROGRESS)
+                {
+                    <div class="text-right">
+                        @*<a class="button alert no-mar-bottom" href="@Url.Action("Refuse", "User", new {area = "Admin", id = Model.Id})"><i class="fa fa-times"></i> @LangHelper.Translate("refuse")</a>*@
+                        <input type="hidden" name="Statut" value="1" />
+                        @*<button type="submit" name="edit" id="edit" class="button"><i class="fa fa-check"></i> @LangHelper.Translate("allow")</button>*@
+                    </div>
+                }
+                else
+                {
+                    <div class="small-12 column">
+                        @Html.FTELEditorFor(m => m.Statut)
+                    </div>
+                    @*@Html.FTELEditorFor(m => m.Statut)*@
+                    @*<div class="text-right">
+                            <a class="button light bordered no-mar-bottom" href="@Url.Action("ForgotPassword", "User", new {area = "Admin", email = Model.Email})" title="@LangHelper.Translate("password.forgot")" data-confirm="@LangHelper.Translate("password.forgot.confirm")"><i class="fa fa-history"></i> @Html.Lang("reset.password")</a>
+                            <button type="submit" name="edit" id="edit" class="button">@LangHelper.Translate("update")</button>
+                        </div>*@
+                }
+            </div>
+        </div>
+    </div>
+    if (!Model.IsInternalBayer)
+    {
+        <div class="row mar-top">
+            <div class="small-12 medium-12 column">
+                @(Html.Kendo().Grid<DocumentExceptionGridModel>()
+                    .Name("DocumentExceptionGrid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(m => m.IsException).Width(80).Title("").HtmlAttributes(new { @class = "templateCell" }).ClientTemplate(
+                            Html.Kendo().ButtonGroup()
+                                .Name("button-grp-#=Id#")
+                                .Events(e => e.Select("Exception"))
+                                .HtmlAttributes(new { data_document = "#=id#" })
+                                //.Index()
+                                .Selection("single")
+                                .Items(t =>
+                                {
+                                    t.Add().Icon("check").HtmlAttributes(new { @class = "conserve # if (!IsException) { # k-state-active # } #" });
+                                    t.Add().Icon("cancel").HtmlAttributes(new { @class = "delete # if (IsException) { # k-state-active # } #" });
+                                }).ToClientTemplate().ToHtmlString()
+                            );
+                        //columns.Bound(m => m.Id).Title(" ").Width(50).Filterable(false).Sortable(false).ClientTemplate("showImg");
+                        columns.Bound(m => m.Id).Title(" ").Width(50).Filterable(false).Sortable(false)
+                        .ClientTemplate("<img width='150' height='150' src='#: SearchThumbnailUrl #&width=150&height=150' />");
+                        columns.Bound(m => m.Name).Width(250);
+                        columns.Bound(m => m.TypeName).Width(100);
+                        columns.Bound(m => m.Ranges).Width(100);
+
+                        //columns.Bound(m => m.ContentType);
+                        //columns.Bound(m => m.Size);
+                        columns.Bound(m => m.DateCreated).Format("{0:dd/MM/yyyy}").Width(80);
+                    })
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(r => r.Action("ReadDocumentException", "User", new { area = "Admin", userId = Model.Id }).Data("docRange"))
+                        .Model(model =>
+                        {
+                            model.Id(c => c.Id);
+                        })
+                        .ServerOperation(false)
+                    //.PageSize(10)
+                    )
+                    .Events(ev => ev.DataBound("initException"))
+                    .Sortable(sorting => sorting.SortMode(GridSortMode.SingleColumn))
+                    .Filterable()
+                    .Scrollable(s => s.Height(500))
+                    .Pageable(p => p.Enabled(true).Refresh(true))
+                )
+            </div>
+        </div>
+        <script type="text/javascript">
+            var dico = [];
+            function Exception(e) {
+                var index = this.current().index();
+                var divDocument = e.sender.element.closest("[data-document]");
+                var docId = divDocument.data("document");
+                if(dico.indexOf(docId) != -1) {
+                //if (dico.includes(docId)) {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DocumentException", "User")',
+                        data: { docId: docId, userId: '@Model.Id', index: index },
+                        success: function (result) {
+                            if (result === true) {
+
+                            }
+                            else {
+                                //console.log(result);
+                                //alert(result);
+                            }
+                        },
+                        error: function (error) {
+                            //console.log(error);
+                        }
+                    });
+                } else {
+                    dico.push(docId);
+                }
+            }
+            $(function () {
+                var grid = $("#DocumentExceptionGrid").data("kendoGrid");
+                $("#DocumentExceptionGrid").on("click", "[data-document]", function () {
+                    var docId = $(this).data("document");
+                    var element = $.grep(grid.dataSource.data(), function (item) {
+                        return item.Id == docId;
+                    });
+                    if (element != undefined && element.length == 1) {
+                        var elem = element[0];
+                        elem.IsException = !elem.IsException;
+                    }
+                })
+                onSelectFiltering(null);
+            })
+
+            function initException() {
+                $(".templateCell").each(function () {
+                    eval($(this).children("script").last().html());
+                })
+            }
+            //function docData() {
+            //    var ms = $("#Filtering").data("kendoMultiSelect");
+            //    return { filtering: ms.dataItems() };
+            //}
+            function docRange() {
+                var ms = $("#Ranges").data("kendoMultiSelect");
+                var val = "";
+                for (var i = 0; i < ms.length; i++) {
+                    var item = ms[i];
+                    val += item.Name + ", ";
+                }
+                return { ranges: val };
+            }
+
+            // Changement sur les Gammes
+            function onSelectRange(e) {
+                if (e != null) {
+                    var rangesValues = e.sender.value();
+                    var documentTypesValues = $("#Filtering").data("kendoMultiSelect").value();
+                    filterGrid(rangesValues, documentTypesValues);
+                }
+            }
+
+            // Changement sur les Document Types
+            function onSelectFiltering(e) {
+                if (e != null) {
+                    var documentTypesValues = e.sender.value();
+                    var rangesValues = $("#Ranges").data("kendoMultiSelect").value();
+                    filterGrid(rangesValues, documentTypesValues);
+                }
+            }
+
+            function filterGrid(rangesValues, typesDocumentValues) {
+                // Création des filtres
+                var filterGlobal = new Array();
+
+                // Gamme (range)
+                var filterRange = { logic: "or", filters: [] };
+                for (var index = 0; index < rangesValues.length; index++) {
+                    filterRange.filters.push({ field: "RangeIds", operator: "contains", value: rangesValues[index] });
+                }
+
+                // Type Document
+                var filterDocument = { logic: "or", filters: [] };
+                for (var index = 0; index < typesDocumentValues.length; index++) {
+                    filterDocument.filters.push({ field: "TypeDocument", operator: "eq", value: parseInt(typesDocumentValues[index]) });
+                }
+
+                // Application des filtres
+                if (filterRange.filters.length > 0)
+                    filterGlobal.push(filterRange);
+                if (filterDocument.filters.length > 0)
+                    filterGlobal.push(filterDocument);
+
+                var grid = $("#DocumentExceptionGrid").data("kendoGrid");
+                grid.dataSource.filter({
+                    logic: "and",
+                    filters: filterGlobal
+                });
+            }
+            $(document).ready(function () {
+                var documentTypesValues = $("#Filtering").data("kendoMultiSelect").value();
+                var rangesValues = $("#Ranges").data("kendoMultiSelect").value();
+                filterGrid(rangesValues, documentTypesValues);
+            });
+        </script>
+
+        if (Model.Statut == MembershipUser.Statut.INPROGRESS)
+        {
+            <div class="row text-right mar-top">
+                <a class="button alert no-mar-bottom" href="@Url.Action("Refuse", "User", new {area = "Admin", id = Model.Id})"><i class="fa fa-times"></i> @LangHelper.Translate("refuse")</a>
+                @*<input type="hidden" name="Statut" value="1" />*@
+                <button type="submit" name="edit" id="edit" class="button"><i class="fa fa-check"></i> @LangHelper.Translate("allow")</button>
+            </div>
+        }
+        else
+        {
+            @*@Html.FTELEditorFor(m => m.Statut)*@
+            <div class="row text-right mar-top">
+                <a class="button light bordered no-mar-bottom" href="@Url.Action("ForgotPassword", "User", new {area = "Admin", email = Model.Email})" title="@LangHelper.Translate("password.forgot")" data-confirm="@LangHelper.Translate("password.forgot.confirm")"><i class="fa fa-history"></i> @Html.Lang("reset.password")</a>
+                <button type="submit" name="edit" id="edit" class="button">@LangHelper.Translate("update")</button>
+            </div>
+        }
+    }
+}
+
+<script type="text/x-kendo-tmpl" id="showImg">
+    <img width='150' height='150' src='#: SearchThumbnailUrl #&width=150&height=150' />
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#@id").ftelvalidation(true);
+    })
+</script>

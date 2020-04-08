@@ -1,0 +1,25 @@
+﻿@model DocumentDetail
+
+<style>
+    .delete-file-button {
+        color: #DF2500;
+        padding-left: 4px;
+    }
+
+    .fileInfo {
+        font-size: 12px !important;
+    }
+</style>
+
+<span class="fa fa-chevron-right fa-1"></span>
+@if (Model != null)
+{
+    <a href="@(Url.Content("~/" + Session["CURRENT_USER_LANGUAGE"] + "/Document/Download/") + Model.Id.ToString())" class="@Model.Id.ToString() fileInfo">@Model.Name (@String.Format(new FileSizeFormatProvider(), "Taille: {0:fs}", Model.Size))</a>
+    <a href="#" class="delete-file-button" data-val="@Model.Id.ToString()">
+        <span class="fa fa-times fa-2"></span>
+    </a>
+}
+else
+{
+    <text>Pas de fichier(s)</text>
+}

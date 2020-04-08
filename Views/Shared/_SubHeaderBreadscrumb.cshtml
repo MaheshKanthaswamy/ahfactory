@@ -1,0 +1,29 @@
+﻿@{
+    var id = Html.RandomID();
+
+    var breadcrumb = (List<BreadcrumbModel>)ViewBag.Breadcrumb ?? new List<BreadcrumbModel>();
+}
+
+<div class="sub-header">
+    <div class="row">
+        <div class="small-12 column">
+            <nav aria-label="You are here:" role="navigation">
+                <ul class="breadcrumbs">
+                    <li><a href="@Url.Action("Index", "Home", new { area = "", DocumentType = (DocumentType?)null })"><i class="fa fa-home"></i></a></li>
+
+                    @foreach (var bc in breadcrumb)
+                    {
+                        if (bc.Enabled)
+                        {
+                            <li><a href="@bc.Link">@bc.Name</a></li>
+                        }
+                        else
+                        {
+                            <li class="disabled">@bc.Name</li>
+                        }
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

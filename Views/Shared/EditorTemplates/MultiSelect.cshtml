@@ -1,0 +1,42 @@
+﻿@using Ftel.WebSite.Areas.Admin.Models;
+@model IEnumerable<ModelFiltering>
+
+@{
+    var model = new List<String>();
+    if (Model != null)
+    {
+        model.AddRange(Model.Select(i => i.Value));
+    }
+}
+
+    @(Html.Kendo()
+        .MultiSelect()
+        .Name(ViewData.TemplateInfo.HtmlFieldPrefix)
+        .HtmlAttributes(new { id = Html.RandomID() })
+        .BindTo(new List<ModelFiltering>() {
+            new  ModelFiltering () {
+                Name = LangHelper.Translate("images"),
+                Value = "0"
+             },
+             new  ModelFiltering () {
+                Name = LangHelper.Translate("advert.tools"),
+                Value = "1"
+             },
+             new  ModelFiltering () {
+                Name = LangHelper.Translate("videos"),
+                Value = "2"
+             },
+             new  ModelFiltering () {
+                Name = LangHelper.Translate("guidelines"),
+                Value = "3"
+             },
+             new  ModelFiltering () {
+                Name = LangHelper.Translate("obligatory.text"),
+                Value = "4"
+             }
+        })
+       .DataTextField("Name")
+       .DataValueField("Value")
+       .Value(model)
+      )
+

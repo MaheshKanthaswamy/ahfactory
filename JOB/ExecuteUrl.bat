@@ -1,0 +1,1 @@
+ExecuteUrl.exe http://ahfactory.fr.intranet.cnb/Job/Job/Newsletter

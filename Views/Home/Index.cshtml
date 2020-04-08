@@ -1,0 +1,31 @@
+﻿@model SearchDocumentModel
+
+@{
+    var id = Html.RandomID();
+}
+
+<div class="row documents-page">
+    @*<div class="small-12 medium-3 column">
+        <div class="big-carousel">
+            @{Html.RenderPartial("_BigCarousel", Model);}
+        </div>
+    </div>*@
+
+    <div class="small-12 column">
+
+        @{Html.RenderPartial("_LastUpdate", Model);}
+
+        <div class="all-documents">
+            <div class="add-document-container">
+                <h5 class="add-document-container-title">@LangHelper.Translate(Model.TypeName)</h5>
+
+                @if (RoleHelper.IsAdminData || RoleHelper.IsAdminTech)
+                {
+                    <a href="@Url.Action("AddDocument", "Document", new { DocumentType = Model.DocumentType })" data-reveal-popup data-reveal-popup-classes="dropzone-reveal" class="button light bordered add-document-container-link">+ @LangHelper.Translate(Model.AddDocument)</a>
+                }
+            </div>
+
+            @{Html.RenderPartial("_DocumentListView", Model);}
+        </div>
+    </div>
+</div>

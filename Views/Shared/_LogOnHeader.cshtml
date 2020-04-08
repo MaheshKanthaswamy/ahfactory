@@ -1,0 +1,28 @@
+﻿@{
+    var id = Html.RandomID();
+    var SearchDocumentModel = (SearchDocumentModel)ViewBag.SearchDocumentModel;
+}
+
+<header>
+    <div class="content">
+        <div class="row">
+            <div class="small-12 column">
+                <div class="content-content">
+                    <div class="content-logo">
+                        <a href="@Url.Action("LogOn", "User")">
+                            <img src="@Url.Content("~/Content/images/logos/logo.png")" alt="AH Digital Factory" />
+                        </a>
+                    </div>
+                    <div class="content-info">
+                        <div class="content-info-content">
+                            <div class="content-info-menu"></div>
+                            <div class="content-info-logo">
+                                <img src="@Url.Content("~/Content/images/logos/bayer.png")" alt="Bayer" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

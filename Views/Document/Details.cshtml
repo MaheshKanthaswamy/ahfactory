@@ -1,0 +1,147 @@
+﻿@model DocumentModel
+@{
+    var fromType = (DocumentType?)ViewBag.FromType;
+    var ranges = Model.RangesNames;
+    var id = Html.RandomID();
+}
+
+@if (Model.Status == DocumentStatus.ARCHIVED)
+{
+    Html.RenderPartial("_ArchivedInfo");
+}
+
+<div class="row document-details">
+    <div class="small-12 medium-4 column">
+        @if (Model.HaveBinaryFile)
+        {
+            <div class="img-filename-container">
+                <img src="@Model.ThumbnailUrl" height="400" />
+                @*<div class="filename">@Model.FileName</div>*@
+            </div>
+            if (Model.SourceModel != null && Model.IsLastVersion)
+            {
+                <div class="document-source-container">
+
+                    @if (Model.SourceModel.FilesName != null && Model.SourceModel.FilesName.Any())
+                    {
+                        <div class="source-file-ul-container">
+                            <ul>
+                                @foreach (var name in Model.SourceModel.FilesName)
+                                {
+                                    <li>@name</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            }
+            @*<div class="text-right">
+                <a class="button expanded mar-bottom" href="@Url.Action("DownloadFile", "Api", new {id = Model.Id})"><i class="fa fa-download"></i>&nbsp;&nbsp;@LangHelper.Translate("download")</a>
+            </div>*@
+            @*if (Model.SourceModel != null && Model.IsLastVersion)
+            {
+                <div class="document-source-container">
+                    <div class="source-file-content-title-container">
+                        <div class="source-file-content-title">@Html.Lang("source.file.content") :</div>
+                        <div class="source-file-content-title-name">
+                            <a href="@Url.Action("DownloadFile", "Api", new {id = Model.SourceModel.Id})"><i class="fa fa-download"></i> @Model.SourceModel.Name (@Model.GetSizeFormat(Model.SourceSize))</a>
+                        </div>
+                    </div>
+                    @if (Model.SourceModel.FilesName != null && Model.SourceModel.FilesName.Any())
+                    {
+                        <div class="source-file-ul-container">
+                            <ul>
+                                @foreach (var name in Model.SourceModel.FilesName)
+                                {
+                                    <li>@name</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            }*@
+        }
+        else
+        {
+            <div class="callout alert">@Html.Lang("document.details.no.binary.file")</div>
+        }
+    </div>
+    <div class="small-12 medium-8 column">
+        @if ((RoleHelper.IsAdminData || RoleHelper.IsAdminTech) && Model.IsLastVersion)
+        {
+            <a class="edit-button button light bordered" href="@Url.Action("EditDocument", "Document", new {Id = Model.Id, FromType = fromType})"><i class="fa fa-edit"></i>&nbsp;&nbsp;@LangHelper.Translate("edit")</a>
+        }
+        @if (Model.HaveBinaryFile)
+        {
+            if (Model.SourceModel != null && Model.IsLastVersion)
+            {
+                <a href="@Url.Action("DownloadFile", "Api", new { id = Model.SourceModel.Id })" class="button float-right mar-right"><i class="fa fa-download"></i> Télécharger les sources</a>
+                
+            }
+            <a class="button float-right mar-bottom mar-right" href="@Url.Action("DownloadFile", "Api", new { id = Model.Id })"><i class="fa fa-download"></i>&nbsp;&nbsp;@LangHelper.Translate("download") @(Model.SourceModel != null && Model.IsLastVersion ? " la preview" : "")</a>
+        }
+        <h4>@Model.Name</h4>
+        <div>@LangHelper.Translate("version") : @Model.Version</div>
+        <div>@LangHelper.Translate("document.type") : @Model.TypeName <i>(@Model.Extension)</i></div>
+        <div>@LangHelper.Translate("size") : @Model.GetSizeFormat(Model.Size)</div>
+        <div>@LangHelper.Translate("document.date.added") : @Model.DateCreated.ToString("dd/MM/yyyy")</div>
+        <div>
+            @LangHelper.Translate("document.date.end.validate") :
+            @if (Model.ValidityDate.HasValue)
+            {
+                @Model.ValidityDate.Value.ToString("dd/MM/yyyy")
+            }
+            else
+            {
+                @LangHelper.Translate("document.ranges.uninformed")
+            }
+        </div>
+
+        @if (ranges.Any())
+        {
+            var cptrange = 1;
+            var countranges = ranges.Count();
+            <div>
+                @LangHelper.Translate("document.ranges") :
+                @foreach (var name in ranges)
+                {
+                    <span>@name@(cptrange < countranges ? "," : "")</span>
+                    if (cptrange < countranges)
+                    {
+                        cptrange++;
+                    }
+                }
+            </div>
+        }
+        else
+        {
+            <div>
+                @LangHelper.Translate("document.ranges") : @LangHelper.Translate("document.ranges.uninformed")
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.DocUrl))
+        {
+            <div class="">@LangHelper.Translate("doc.url") : <a href="@Model.DocUrl" target="_blank">@Model.DocUrl</a></div>
+        }
+
+        @if ((RoleHelper.IsAdminData || RoleHelper.IsAdminTech) && !string.IsNullOrWhiteSpace(Model.AhAdvertisingCode))
+        {
+            var url = ParameterHelper.GenerateAHAdvertisingURL(Model.AhAdvertisingCode);
+            <div class="mar-top">@LangHelper.Translate("ahadvertising.url") : <a href="@url" target="_blank">@url</a></div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.Comment))
+        {
+            <h4 class="mar-top">@LangHelper.Translate("document.comment")</h4>
+            <div>@Model.Comment</div>
+        }
+
+        @if (RoleHelper.IsAdminData || RoleHelper.IsAdminTech)
+        {
+            <div class="mar-top">
+                @Html.WebPart("Logs", "Document", "", Model.VersionnableDocumentId)
+            </div>
+        }
+    </div>
+</div>

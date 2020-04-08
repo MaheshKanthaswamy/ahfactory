@@ -1,0 +1,42 @@
+﻿<div class="title-bar hide-for-medium" data-toggle="top-bar-mobile mobile-mask">
+    <button class="menu-icon" type="button" data-toggle></button>
+    <div class="title-bar-title">@LangHelper.Translate("menu")</div>
+</div>
+
+<div class="top-bar show-for-medium">
+    <div class="row">
+
+        <div class="top-bar-left">
+            <ul class="dropdown menu expanded" data-dropdown-menu>
+                @foreach (var menu in MenuModel.GetFullMenu().OrderBy(o => o.Order))
+            {
+                Html.RenderPartial("_SubMenu", menu);
+            }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="top-bar-mobile" class="hide-for-medium" data-toggler data-animate="slide-in-left slide-out-left">
+    <ul class="menu-mobile">
+        <li>
+            <a href="#">Document</a>
+            <ul class="menu vertical">
+                @foreach (var menu in MenuModel.GetFullMenu().OrderBy(o => o.Order))
+                {
+                    Html.RenderPartial("_SubMenu", menu);
+                }
+            </ul>
+        </li>
+
+        @if (RoleHelper.IsAdminData || RoleHelper.IsAdminTech)
+        {
+            <li><a href="@Url.Action("Admin", "Page", new { area = "" })">@LangHelper.Translate("admin")</a></li>
+        }
+        <li><a href="@Url.Action("Contact", "Page", new { area = "" })">@LangHelper.Translate("contact")</a></li>
+        <li><a href="@Url.Action("PrivacyPolicy", "Page", new { area = "" })">@LangHelper.Translate("privacy.policy")</a></li>
+        <li><a href="@Url.Action("TermsOfService", "Page", new { area = "" })">@LangHelper.Translate("terms.of.service")</a></li>
+        <li><a href="@Url.Action("LegalNotice", "Page", new { area = "" })">@LangHelper.Translate("legal.notice")</a></li>
+    </ul>
+</div>
+<div id="mobile-mask" class="mobile-mask hide-for-medium" data-toggler data-toggle="top-bar-mobile mobile-mask" data-animate="fade-in fade-out"></div>

@@ -1,0 +1,13 @@
+﻿@model PageModel
+@{
+    if (!string.IsNullOrWhiteSpace(Model.Layout))
+    {
+        Layout = Model.Layout;
+    }
+}
+
+<div class="row">
+    <div class="small-12 column">
+        @Html.Raw(Model.Content)
+    </div>
+</div>

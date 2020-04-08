@@ -1,0 +1,9 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.iframe-container {
+    .card-content {
+        padding: 0;
+        line-height: 0;
+    }
+}

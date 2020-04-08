@@ -1,0 +1,16 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.logon-form {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    padding: $global-padding;
+
+    legend {
+        font-weight: 600;
+    }
+}
+
+.range-choice {
+    white-space: nowrap;
+}

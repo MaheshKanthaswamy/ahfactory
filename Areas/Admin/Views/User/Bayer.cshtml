@@ -1,0 +1,28 @@
+﻿@model UserGridModel
+
+@{
+    ViewBag.Title = Html.Lang("title.administration.users.and.roles");
+}
+
+<div class="row">
+    <div class="column small-12">
+        @(Html.Kendo().TabStrip()
+            .Name("UsersRoles")
+            .Items(i =>
+            {
+                i.Add().Text(Html.Lang("users")).Content(Html.Partial("_Users", Model).ToHtmlString()).Selected(true);
+                i.Add().Text(Html.Lang("roles")).Content(Html.Partial("_Roles").ToHtmlString());
+                i.Add().Text(Html.Lang("logs")).Content(Html.WebPart("Logs", "Role", "Admin").ToHtmlString());
+            })
+            .Events(e => e.Select("onSelect"))
+        )
+    </div>
+</div>
+
+<script type="text/javascript">
+    function onSelect(e) {
+        var grid = $("#UsersRoles").find(".k-content.k-state-active .k-grid");
+        if(grid)
+            grid.data('kendoGrid').dataSource.read();
+    }
+</script>

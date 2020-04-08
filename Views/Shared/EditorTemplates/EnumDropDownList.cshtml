@@ -1,0 +1,25 @@
+@using Ftels.Utilities
+@using Kendo.Mvc.Extensions
+@model Enum
+
+@{
+    const string dropdownlistkey = DropDownEnumListAttribute.AdditionalValueKey;
+    var enumtypefullname = ViewData.ModelMetadata.AdditionalValues[dropdownlistkey].ToString();
+
+    var enumtype = AppDomain.CurrentDomain.GetAssemblies().Select(assembly => assembly.GetType(enumtypefullname)).Single(t => t != null);
+
+    var model = Enum.GetValues(enumtype).Cast<Enum>().Select(e => new SelectListItem
+    {
+        Selected = Model == e,
+        Text = LangHelper.Translate(e.ToString().ToLower().ToCamelCase().CamelCaseToRessourcePropertyName()),
+        Value = Convert.ToInt32(e).ToString()
+    }).OrderBy(l => int.Parse(l.Value));
+}
+
+<div class="ftel-editor-field">
+    @(Html.Kendo()
+        .DropDownListFor(m => m)
+        .HtmlAttributes(new { id = Html.RandomID() })
+        .BindTo(model)
+    )
+</div>

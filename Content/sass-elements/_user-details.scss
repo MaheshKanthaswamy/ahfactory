@@ -1,0 +1,13 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.user-infos {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    padding: $global-padding;
+    position: relative;
+
+    .edit-button {
+        float: right;
+    }
+}

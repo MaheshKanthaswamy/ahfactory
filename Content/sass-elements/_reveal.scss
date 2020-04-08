@@ -1,0 +1,32 @@
+﻿@import "../foundation/scss/foundation";
+@import "../variables";
+
+.reveal-overlay {
+    overflow: hidden;
+
+    .reveal {
+        margin: auto;
+        max-width: 100%;
+        @include viewport-unit(max-height, 100vh);
+
+        .close-button {
+            right: 0.5rem;
+
+            &:visited, &:hover, &:active, &:focus {
+                background: none;
+                outline: none;
+            }
+
+            & > span {
+                width: 32px;
+                text-align: center;
+                display: inline-block;
+                font-size: 40px;
+            }
+        }
+        /* FIX : Kendo + Foundation Reveal */
+        &.fix-kendo {
+            overflow-y: scroll !important;
+        }
+    }
+}

@@ -1,0 +1,48 @@
+﻿@model UserGridModel
+@{
+    var id = Html.RandomID();
+    var tmpl_id = Html.RandomID();
+}
+<div class="row">
+    <div class="columns large-12">
+    @(Html.Kendo().Grid<UserGridModel>()
+        .Name(id)
+        .HtmlAttributes(new { @class = "black-grid medium-sized" })
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        .Columns(columns =>
+        {
+            columns.Bound(m => m.Login).ClientTemplate(@Html.ActionLink("#=Login#", "Infos", new { Id = "#=Id#" }).ToHtmlString()).Width(200);
+            columns.Bound(m => m.Firstname).Width(150);
+            columns.Bound(m => m.Lastname).Width(150);
+            columns.Bound(m => m.Roles)
+                .ClientTemplate("#= renderMultiSelectText(data.Roles, 'Name') #")
+                .Filterable(false).Width(200);
+            columns.Bound(m => m.Filtering)
+                .ClientTemplate("#= renderMultiSelectText(data.Filtering, 'Name') #")
+                .Filterable(false);
+            columns.Command(commands =>
+            {
+                commands.Edit();
+            }).Width(150)
+            .Title(Html.Lang("actions"));
+        })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(r => r.Action("Read", "User", new {area="Admin", IsBayer = true }))
+            .Update(r => r.Action("Update", "User", new { area = "Admin" }))
+            .Model(model =>
+            {
+                model.Id(c => c.Login);
+                model.Field(c => c.Login).Editable(false);
+                model.Field(c => c.Firstname).Editable(false);
+                model.Field(c => c.Lastname).Editable(false);
+                model.Field(c => c.Roles).Editable(true);
+            })
+            .PageSize(10)
+        )
+        .Pageable(p => p.Refresh(true))
+        .Filterable()
+        .Sortable()
+    )
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@foreach (var notifmessage in NotifHelper.PopAllNotifs())
+{
+    var id = Html.RandomID();
+    <div class="notif-message" id="notif-message_@(id)">
+        <div class="callout" data-closable>
+            <p class="message">@Html.Raw(notifmessage)</p>
+            <a class="close-button" aria-label="Close" data-close>
+                <span aria-hidden="true">&times;</span>
+            </a>
+            <div id="progress" class="progress" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0 percent" aria-valuemax="100">
+                <div class="progress-meter"></div>
+            </div>
+        </div>
+    </div>
+
+        <script type="text/javascript">
+            $(function () {
+                var waittime = 250;
+                var animationduration = 4200; @* Doit correspondre au temps total des deux animations CSS de notif-message (voir _variables.sccs)  *@
+
+                var $notifmessage = $("#notif-message_@(id)");
+                setTimeout(function () {
+                    $notifmessage.addClass("active");
+
+                    setTimeout(function () {
+                        $notifmessage.remove();
+                    }, animationduration);
+                }, waittime);
+            });
+        </script>
+}

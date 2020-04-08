@@ -1,0 +1,23 @@
+﻿@model MenuModel
+
+<li class="@(Model.IsDropDown ? "has-dropdown" : "") @(Model.IsActive ? "active" : "")">
+
+    <a class="navbar-brand" href="@Model.Link">
+        @if (!string.IsNullOrWhiteSpace(Model.Icon))
+        {
+            <div class="menu-link-icon">
+                <i class="@Model.Icon"></i>
+            </div>
+        }
+        @Model.Label
+    </a>
+    @if (Model.IsDropDown)
+    {
+        <ul class="menu vertical">
+            @foreach (var menu in Model.GetFullSubMenu().OrderBy(o => o.Order))
+            {
+                Html.RenderPartial("_SubMenu", menu);
+            }
+        </ul>
+    }
+</li>
